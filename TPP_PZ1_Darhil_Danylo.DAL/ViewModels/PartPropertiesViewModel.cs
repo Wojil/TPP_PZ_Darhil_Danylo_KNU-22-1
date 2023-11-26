@@ -1,6 +1,8 @@
-﻿namespace TPP_PZ1_Darhil_Danylo.DAL.Models
+﻿using TPP_PZ1_Darhil_Danylo.DAL.Models;
+
+namespace TPP_PZ_Darhil_Danylo.DAL.ViewModels
 {
-    public class PartProperties
+    public class PartPropertiesViewModel
     {
         public virtual List<AutoModel> AutoModels { get; set; } = null!;
 
@@ -12,9 +14,9 @@
 
         public virtual List<PartType> PartTypes { get; set; } = null!;
 
-        public virtual AutoPart AutoPart { get; set; }=null!;
+        public virtual AutoPart AutoPart { get; set; } = null!;
 
-        public PartProperties()
+        public PartPropertiesViewModel()
         {
             AutoModels = new List<AutoModel>();
             ManufacturerBrands = new List<ManufacturerBrand>();

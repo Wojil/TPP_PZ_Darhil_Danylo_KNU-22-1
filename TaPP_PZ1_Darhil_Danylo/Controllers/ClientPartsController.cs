@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using MySql.Data.MySqlClient;
+using TPP_PZ_Darhil_Danylo.DAL.ViewModels;
 
 namespace CourseProject.Controllers
 {
@@ -13,20 +14,20 @@ namespace CourseProject.Controllers
         public ActionResult AddToCart(int id)
         {
             AutoPart autopart=SelectAutoPart(id);
-            List<CartPart> CartParts=new List<CartPart>();
+            List<CartPartViewModel> CartParts=new List<CartPartViewModel>();
             string Cart = HttpContext.Session.GetString("CartPart");
             if(Cart==null)
             {
-                CartParts.Add(new CartPart(autopart,1));
+                CartParts.Add(new CartPartViewModel(autopart,1));
                 SessionHelper.SetObjectAsJson(HttpContext.Session, "CartPart", CartParts);
             }
             else
             {
-                CartParts = SessionHelper.GetObjectFromJson<List<CartPart>>(HttpContext.Session, "CartPart");
+                CartParts = SessionHelper.GetObjectFromJson<List<CartPartViewModel>>(HttpContext.Session, "CartPart");
                 int i = Exists(id, CartParts);
                 if(i==-1)
                 {
-                    CartParts.Add(new CartPart(autopart, 1));
+                    CartParts.Add(new CartPartViewModel(autopart, 1));
                     SessionHelper.SetObjectAsJson(HttpContext.Session, "CartPart", CartParts);
                 }
                 else
@@ -37,7 +38,7 @@ namespace CourseProject.Controllers
             }
             return RedirectToAction(controllerName: "Home", actionName: "ClientPartsCatalog");
         }
-        public int Exists(int id, List<CartPart> CartParts)
+        public int Exists(int id, List<CartPartViewModel> CartParts)
         {
             int result = -1;
             for(int i=0;i<CartParts.Count;i++)
@@ -103,8 +104,8 @@ namespace CourseProject.Controllers
         }
         public ActionResult Cart()
         {
-            List<CartPart> CartParts = new List<CartPart>();
-            CartParts = SessionHelper.GetObjectFromJson<List<CartPart>>(HttpContext.Session, "CartPart");
+            List<CartPartViewModel> CartParts = new List<CartPartViewModel>();
+            CartParts = SessionHelper.GetObjectFromJson<List<CartPartViewModel>>(HttpContext.Session, "CartPart");
             //return Redirect("/Shared/Cart");//CartParts
             return View(CartParts);
         }

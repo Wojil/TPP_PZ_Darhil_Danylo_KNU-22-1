@@ -5,6 +5,7 @@ using MySql.Data.MySqlClient;
 using System.Diagnostics.Eventing.Reader;
 using System.Reflection.PortableExecutable;
 using TPP_PZ1_Darhil_Danylo.DAL.DAO.DAOImp;
+using TPP_PZ_Darhil_Danylo.DAL.ViewModels;
 
 namespace CourseProject.Controllers
 {
@@ -15,7 +16,7 @@ namespace CourseProject.Controllers
 
         public ActionResult GetManagerParts()
         {
-            AutoPartsDAO ADAO = new AutoPartsDAO();
+            AutoPartDAO ADAO = new AutoPartDAO();
             List<AutoPart> autoparts = ADAO.GetAll();
             return View("ManagerParts",autoparts);
         }
@@ -24,15 +25,15 @@ namespace CourseProject.Controllers
         [HttpPost]
         public ActionResult Delete(int id)
         {
-            AutoPartsDAO ADAO = new AutoPartsDAO();
+            AutoPartDAO ADAO = new AutoPartDAO();
             ADAO.Delete(id);
             return RedirectToAction(controllerName: "ManagerParts", actionName: "GetManagerParts");
         }
         public ActionResult UpdatePart(int id)
         {
-            AutoPartsDAO ADAO = new AutoPartsDAO();
+            AutoPartDAO ADAO = new AutoPartDAO();
             AutoPart autopart = ADAO.Get(id);
-            PartProperties partProperties = new PartProperties();
+            PartPropertiesViewModel partProperties = new PartPropertiesViewModel();
             partProperties.ManufacturerBrands = GetBrands();
             partProperties.ManufacturerCountries = GetCountries();
             partProperties.AutoModels = GetAutoModels();
@@ -44,7 +45,7 @@ namespace CourseProject.Controllers
         public ActionResult AddPart()
         {
             connection.Open();
-            PartProperties partProperties = new PartProperties();
+            PartPropertiesViewModel partProperties = new PartPropertiesViewModel();
             partProperties.ManufacturerBrands = GetBrands();
             partProperties.ManufacturerCountries = GetCountries();
             partProperties.AutoModels = GetAutoModels();
@@ -61,11 +62,7 @@ namespace CourseProject.Controllers
             List<PartType> parttypes=new List<PartType>();
             while (reader.Read())
             {
-                PartType partType = new PartType
-                {
-                    Id = reader.GetInt32(0),
-                    TypeName = reader.GetString(1)
-                };
+                PartType partType = new PartType.Builder().WithId(reader.GetInt32(0)).WithName(reader.GetString(1)).Build();
                 parttypes.Add(partType);
             }
             reader.Close();
@@ -79,11 +76,7 @@ namespace CourseProject.Controllers
             List<PartCategory> partCategories = new List<PartCategory>();
             while (reader.Read())
             {
-                PartCategory partCategory = new PartCategory
-                {
-                    Id = reader.GetInt32(0),
-                    CategoryName = reader.GetString(1)
-                };
+                PartCategory partCategory = new PartCategory.Builder().WithId(reader.GetInt32(0)).WithName(reader.GetString(1)).Build();
                 partCategories.Add(partCategory);
             }
             reader.Close();
@@ -97,11 +90,7 @@ namespace CourseProject.Controllers
             var reader = command.ExecuteReader();
             while (reader.Read())
             {
-                ManufacturerBrand manufacturerBrand = new ManufacturerBrand
-                {
-                    Id = reader.GetInt32(0),
-                    BrandName = reader.GetString(1)
-                };
+                ManufacturerBrand manufacturerBrand = new ManufacturerBrand.Builder().WithId(reader.GetInt32(0)).WithName(reader.GetString(1)).Build();
                 manufacturerBrands.Add(manufacturerBrand);
             }
             reader.Close();
@@ -115,11 +104,7 @@ namespace CourseProject.Controllers
             var reader = command.ExecuteReader();
             while (reader.Read())
             {
-                ManufacturerCountry manufacturerCountry = new ManufacturerCountry
-                {
-                    Id = reader.GetInt32(0),
-                    CountryName = reader.GetString(1)
-                };
+                ManufacturerCountry manufacturerCountry = new ManufacturerCountry.Builder().WithId(reader.GetInt32(10)).WithName(reader.GetString(11)).Build();
                 manufacturerCountries.Add(manufacturerCountry);
             }
             reader.Close();
@@ -134,11 +119,7 @@ namespace CourseProject.Controllers
             var reader = command.ExecuteReader();
             while (reader.Read())
             {
-                AutoModel autoModel = new AutoModel
-                {
-                    Id = reader.GetInt32(0),
-                    AutoModelName = reader.GetString(1)
-                };
+                AutoModel autoModel = new AutoModel.Builder().WithId(reader.GetInt32(0)).WithName(reader.GetString(1)).Build();
                 autoModels.Add(autoModel);
             }
             reader.Close();
@@ -161,40 +142,18 @@ namespace CourseProject.Controllers
             List<AutoPart> autoparts = new List<AutoPart>();
             while (reader.Read())
             {
-                AutoPart autopart = new AutoPart
-                {
-                    Id = reader.GetInt32(0),
-                    Code = reader.GetString(1),
-                    AutoModel = new AutoModel
-                    {
-                        Id = reader.GetInt32(2),
-                        AutoModelName = reader.GetString(3),
-                    },
-                    PartCategory = new PartCategory
-                    {
-                        Id = reader.GetInt32(4),
-                        CategoryName = reader.GetString(5)
-                    },
-                    PartType = new PartType
-                    {
-                        Id = reader.GetInt32(6),
-                        TypeName = reader.GetString(7)
-                    },
-                    ManufacturerBrand = new ManufacturerBrand
-                    {
-                        Id = reader.GetInt32(8),
-                        BrandName = reader.GetString(9)
-                    },
-                    ManufacturerCountry = new ManufacturerCountry
-                    {
-                        Id = reader.GetInt32(10),
-                        CountryName = reader.GetString(11)
-                    },
-                    Name = reader.GetString(12),
-                    Price = reader.GetDecimal(13),
-                    Description = reader.GetString(14),
-                    Quantity = reader.GetInt32(15)
-                };
+                AutoPart autopart = new AutoPart.Builder()
+                    .WithId(reader.GetInt32(0))
+                    .WithCode(reader.GetString(1))
+                    .WithAutomodel(reader.GetInt32(2), reader.GetString(3))
+                    .WithPartCategory(reader.GetInt32(4), reader.GetString(5))
+                    .WithPartType(reader.GetInt32(6), reader.GetString(7))
+                    .WithManufacturerBrand(reader.GetInt32(6), reader.GetString(7))
+                    .WithManufacturerCountry(reader.GetInt32(10), reader.GetString(11))
+                    .WithName(reader.GetString(12))
+                    .WithPrice(reader.GetDecimal(13))
+                    .WithDescription(reader.GetString(14))
+                    .WithQuantity(reader.GetInt32(15)).Build();
                 autoparts.Add(autopart);
             }
             reader.Close();

@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using MySql.Data.MySqlClient;
+using TPP_PZ_Darhil_Danylo.DAL.ViewModels;
 
 namespace CourseProject.Controllers
 {

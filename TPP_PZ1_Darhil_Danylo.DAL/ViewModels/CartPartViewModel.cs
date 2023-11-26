@@ -1,10 +1,12 @@
-﻿namespace TPP_PZ1_Darhil_Danylo.DAL.Models
+﻿using TPP_PZ1_Darhil_Danylo.DAL.Models;
+
+namespace TPP_PZ_Darhil_Danylo.DAL.ViewModels
 {
-    public class CartPart
+    public class CartPartViewModel
     {
         public AutoPart AutoPart { get; set; }
         public int Quantity { get; set; }
-        public CartPart(AutoPart autopart,int quantity)
+        public CartPartViewModel(AutoPart autopart, int quantity)
         {
             AutoPart = autopart;
             Quantity = quantity;

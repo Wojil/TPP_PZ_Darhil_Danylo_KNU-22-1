@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using MySqlX.XDevAPI.Common;
 using MySql.Data.MySqlClient;
+using TPP_PZ_Darhil_Danylo.DAL.ViewModels;
 
 namespace CourseProject.Controllers
 {
@@ -21,8 +22,8 @@ namespace CourseProject.Controllers
         }
         public ActionResult Delete(int id)
         {
-            List<CartPart> CartParts = new List<CartPart>();
-            CartParts = SessionHelper.GetObjectFromJson<List<CartPart>>(HttpContext.Session, "CartPart");
+            List<CartPartViewModel> CartParts = new List<CartPartViewModel>();
+            CartParts = SessionHelper.GetObjectFromJson<List<CartPartViewModel>>(HttpContext.Session, "CartPart");
             //CartParts.Remove(CartParts[id]);
             CartParts.Remove(CartParts.Find(x => x.AutoPart.Id == id));
             SessionHelper.SetObjectAsJson(HttpContext.Session, "CartPart", CartParts);
@@ -30,8 +31,8 @@ namespace CourseProject.Controllers
         }
         public ActionResult UpdateCart(int[] quantities)
         {
-            List<CartPart> CartParts = new List<CartPart>();
-            CartParts = SessionHelper.GetObjectFromJson<List<CartPart>>(HttpContext.Session, "CartPart");
+            List<CartPartViewModel> CartParts = new List<CartPartViewModel>();
+            CartParts = SessionHelper.GetObjectFromJson<List<CartPartViewModel>>(HttpContext.Session, "CartPart");
             //CartParts.Remove(CartParts[id]);
             for(int i=0;i< quantities.Length;i++)
             {
@@ -43,13 +44,13 @@ namespace CourseProject.Controllers
         public ActionResult SubmitOrder()
         {
             connection.Open();
-            List<CartPart> CartParts = new List<CartPart>();
-            CartParts = SessionHelper.GetObjectFromJson<List<CartPart>>(HttpContext.Session, "CartPart");
+            List<CartPartViewModel> CartParts = new List<CartPartViewModel>();
+            CartParts = SessionHelper.GetObjectFromJson<List<CartPartViewModel>>(HttpContext.Session, "CartPart");
             var insertedorder = "INSERT INTO orders (`statusid`, `createdate`, `updatedate`, `clientid`,`managerid`) VALUES (1, '" + DateTime.Now.ToString("yyyy-MM-dd") + "', '" + DateTime.Now.ToString("yyyy-MM-dd") + "', 1,1);";
             var command = new MySqlCommand(insertedorder, connection);
             command.ExecuteNonQuery();
             var lastid = command.LastInsertedId;
-            foreach (CartPart part in CartParts)
+            foreach (CartPartViewModel part in CartParts)
             {
                 string totalprice = (part.Quantity * part.AutoPart.Price).ToString().Replace(',','.');
                 insertedorder = "INSERT INTO ordersautoparts (`autopartid`, `orderid`, `partcount`, `price`) VALUES('"+part.AutoPart.Id+"', '"+lastid+"', '"+part.Quantity+"', '"+totalprice+"')";
@@ -58,7 +59,7 @@ namespace CourseProject.Controllers
             }
             CartParts.Clear();
             SessionHelper.SetObjectAsJson(HttpContext.Session, "CartPart", CartParts);
-            CartPart minuspart = new CartPart(new AutoPart(),-1);
+            CartPartViewModel minuspart = new CartPartViewModel(new AutoPart(),-1);
             minuspart.AutoPart.Id = Convert.ToInt32(lastid);
             CartParts.Add(minuspart);
             return View("Cart", CartParts);

@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using MySql.Data.MySqlClient;
+using TPP_PZ_Darhil_Danylo.DAL.ViewModels;
 using TPP_PZ1_Darhil_Danylo.DAL.Models;
 
 namespace CourseProject.Controllers

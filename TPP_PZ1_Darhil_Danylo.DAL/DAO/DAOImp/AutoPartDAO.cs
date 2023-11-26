@@ -10,7 +10,7 @@ using TPP_PZ1_Darhil_Danylo.DAL.SQLConnection;
 
 namespace TPP_PZ1_Darhil_Danylo.DAL.DAO.DAOImp
 {
-    public class AutoPartsDAO : IDAO<AutoPart>
+    public class AutoPartDAO : IDAO<AutoPart>
     {
         private SQLContext _sqlContext;
         private const string _selectAllAutoPartsQuery = "select a.autopartid,a.code, m.automodelid, m.automodelname,c.categoryid,c.categoryname,t.typeid,t.typename,b.brandid,b.brandname,mc.countryid,mc.countryname," +
@@ -31,7 +31,7 @@ namespace TPP_PZ1_Darhil_Danylo.DAL.DAO.DAOImp
                         "join manufacturercountry mc on mc.countryid = a.countryid where a.autopartid = @id; ";
         private const string _deletePartQuery = "DELETE FROM autoparts WHERE (`autopartid` = '@id');";
 
-        public AutoPartsDAO()
+        public AutoPartDAO()
         {
             _sqlContext = SQLContext.getInstance();
         }
@@ -59,40 +59,18 @@ namespace TPP_PZ1_Darhil_Danylo.DAL.DAO.DAOImp
             AutoPart autopart = null;
             while (reader.Read())
             {
-                autopart = new AutoPart
-                {
-                    Id = reader.GetInt32(0),
-                    Code = reader.GetString(1),
-                    AutoModel = new AutoModel
-                    {
-                        Id = reader.GetInt32(2),
-                        AutoModelName = reader.GetString(3),
-                    },
-                    PartCategory = new PartCategory
-                    {
-                        Id = reader.GetInt32(4),
-                        CategoryName = reader.GetString(5)
-                    },
-                    PartType = new PartType
-                    {
-                        Id = reader.GetInt32(6),
-                        TypeName = reader.GetString(7)
-                    },
-                    ManufacturerBrand = new ManufacturerBrand
-                    {
-                        Id = reader.GetInt32(8),
-                        BrandName = reader.GetString(9)
-                    },
-                    ManufacturerCountry = new ManufacturerCountry
-                    {
-                        Id = reader.GetInt32(10),
-                        CountryName = reader.GetString(11)
-                    },
-                    Name = reader.GetString(12),
-                    Price = reader.GetDecimal(13),
-                    Description = reader.GetString(14),
-                    Quantity = reader.GetInt32(15)
-                };
+                autopart = new AutoPart.Builder()
+                    .WithId(reader.GetInt32(0))
+                    .WithCode(reader.GetString(1))
+                    .WithAutomodel(reader.GetInt32(2), reader.GetString(3))
+                    .WithPartCategory(reader.GetInt32(4), reader.GetString(5))
+                    .WithPartType(reader.GetInt32(6), reader.GetString(7))
+                    .WithManufacturerBrand(reader.GetInt32(6), reader.GetString(7))
+                    .WithManufacturerCountry(reader.GetInt32(10), reader.GetString(11))
+                    .WithName(reader.GetString(12))
+                    .WithPrice(reader.GetDecimal(13))
+                    .WithDescription(reader.GetString(14))
+                    .WithQuantity(reader.GetInt32(15)).Build();
             }
             reader.Close();
             _sqlContext.CloseConnection();
@@ -107,40 +85,18 @@ namespace TPP_PZ1_Darhil_Danylo.DAL.DAO.DAOImp
             List<AutoPart> autoparts = new List<AutoPart>();
             while (reader.Read())
             {
-                AutoPart autopart = new AutoPart
-                {
-                    Id = reader.GetInt32(0),
-                    Code = reader.GetString(1),
-                    AutoModel = new AutoModel
-                    {
-                        Id = reader.GetInt32(2),
-                        AutoModelName = reader.GetString(3),
-                    },
-                    PartCategory = new PartCategory
-                    {
-                        Id = reader.GetInt32(4),
-                        CategoryName = reader.GetString(5)
-                    },
-                    PartType = new PartType
-                    {
-                        Id = reader.GetInt32(6),
-                        TypeName = reader.GetString(7)
-                    },
-                    ManufacturerBrand = new ManufacturerBrand
-                    {
-                        Id = reader.GetInt32(8),
-                        BrandName = reader.GetString(9)
-                    },
-                    ManufacturerCountry = new ManufacturerCountry
-                    {
-                        Id = reader.GetInt32(10),
-                        CountryName = reader.GetString(11)
-                    },
-                    Name = reader.GetString(12),
-                    Price = reader.GetDecimal(13),
-                    Description = reader.GetString(14),
-                    Quantity = reader.GetInt32(15)
-                };
+                AutoPart autopart = new AutoPart.Builder()
+                    .WithId(reader.GetInt32(0))
+                    .WithCode(reader.GetString(1))
+                    .WithAutomodel(reader.GetInt32(2), reader.GetString(3))
+                    .WithPartCategory(reader.GetInt32(4), reader.GetString(5))
+                    .WithPartType(reader.GetInt32(6), reader.GetString(7))
+                    .WithManufacturerBrand(reader.GetInt32(6), reader.GetString(7))
+                    .WithManufacturerCountry(reader.GetInt32(10), reader.GetString(11))
+                    .WithName(reader.GetString(12))
+                    .WithPrice(reader.GetDecimal(13))
+                    .WithDescription(reader.GetString(14))
+                    .WithQuantity(reader.GetInt32(15)).Build();
                 autoparts.Add(autopart);
             }
             reader.Close();

@@ -1,7 +1,7 @@
-﻿using TPP_PZ1_Darhil_Danylo.DAL.Models;
-using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using MySql.Data.MySqlClient;
+using TPP_PZ_Darhil_Danylo.DAL.ViewModels;
 
 namespace CourseProject.Controllers
 {
@@ -35,7 +35,7 @@ namespace CourseProject.Controllers
                 " WHERE `autopartid` = '"+id+"';";
             var command = new MySqlCommand(selectautopart, connection);
             command.ExecuteNonQuery();
-            PartProperties configpropertie = null;
+            PartPropertiesViewModel configpropertie = null;
             return View("UpdatePart", configpropertie);
         }
     }

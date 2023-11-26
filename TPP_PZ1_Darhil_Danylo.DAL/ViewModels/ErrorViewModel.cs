@@ -1,4 +1,4 @@
-namespace CourseProject.Models
+namespace TPP_PZ_Darhil_Danylo.DAL.ViewModels
 {
     public class ErrorViewModel
     {
