@@ -1,0 +1,131 @@
+﻿@{
+    ViewData["Title"] = "Нова автозапчастина";
+}
+<style>
+    .tbody {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        height: 60vh;
+    }
+
+    .container {
+        text-align: center;
+    }
+
+    .button-container {
+        margin-top: 10px;
+    }
+
+    .card-body {
+        text-align: left;
+    }
+
+    #input-count {
+        text-align: center;
+    }
+
+</style>
+
+<div class="text-center">
+    <h1 class="page-title">Додавання нової автозапчастини</h1>
+</div>
+<div class="container mb-3">
+    @if (Model == null)
+    {
+        <div class="tbody ">
+            <b style="font-size: 20px;">Новий товар був успішно доданий !</b>
+        </div>
+        <form method="get" action="@Url.Action("AddPart","ManagerParts")">
+            <button type="submit" class="btn btn-info" style="width: 300px;">Додати ще один товар</button>
+        </form>
+
+    }
+    else
+    {
+        <form method="post" action="@Url.Action("Create","AddPart")">
+            <div class="card mb-3">
+                <div class="card-body">
+                    <div class="form-group">
+                        <label for="name">Назва:</label>
+                        <input type="text" id="nameid" name="name" class="form-control" required />
+                    </div>
+                    <div class="form-group">
+                        <label for="code"> Код:</label>
+                        <input type="text" id="codeid" name="code" class="form-control" required />
+                    </div>
+                    <div class="form-group">
+                        <label for="automodel">Модель авто:</label>
+                        <select id="automodelid" name="automodel" class="form-control" required>
+                            <option value=""></option>
+                            @foreach (var automodel in Model.AutoModels)
+                            {
+                                <option value="@automodel.AutoModelName"> @automodel.AutoModelName </option>
+                            }
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="parttype">Тип деталі:</label>
+                        <select id="parttypeid" name="parttype" class="form-control" required>
+                            <option value=""></option>
+                            @foreach (var parttype in Model.PartTypes)
+                            {
+                                <option value="@parttype.TypeName"> @parttype.TypeName </option>
+                            }
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="partcategory">Категорія деталі:</label>
+                        <select id="partcategoryid" name="partcategory" class="form-control" required>
+                            <option value=""></option>
+                            @foreach (var partcategory in Model.PartCategories)
+                            {
+                                <option value="@partcategory.CategoryName"> @partcategory.CategoryName </option>
+                            }
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="brand">Виробник деталі:</label>
+                        <select id="brandid" name="brand" class="form-control" required>
+                            <option value=""></option>
+                            @foreach (var brand in Model.ManufacturerBrands)
+                            {
+                                <option value="@brand.BrandName"> @brand.BrandName </option>
+                            }
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="country">Країна виробник деталі:</label>
+                        <select id="countryid" name="country" class="form-control" required>
+                            <option value=""></option>
+                            @foreach (var country in Model.ManufacturerCountries)
+                            {
+                                <option value="@country.CountryName"> @country.CountryName </option>
+                            }
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="description">Опис:</label>
+                        <input type="text" id="descriptionid" name="description" class="form-control" />
+                    </div>
+                    <div class="form-group">
+                        <label for="price">Ціна:</label>
+                        <input type="number" id="priceid" min="0" value="1" max="@decimal.MaxValue" name="price" class="form-control" required />
+                    </div>
+                    <div class="form-group">
+                        <label for="quantity">Кількість:</label>
+                        <input type="number" id="quantityid" min="0" max="@decimal.MaxValue" name="quantity" class="form-control" value="0" required />
+                    </div>
+                </div>
+
+                <div class="form-group" style="text-align:center; display:flex; justify-content:center; margin-bottom: 10px;">
+                    <button type="submit" class="btn btn-primary" style=" width:300px;">Додати нову автозапчастину</button>
+                </div>
+            </div>
+        </form>
+    }
+</div>
+
+<form method="get" style="text-align:center; display:flex; justify-content:center; margin-bottom: 10px;" action="@Url.Action("ManagerParts","ManagerMenu")">
+    <button type="submit" class="btn btn-warning" style="width: 300px;">Повернутись до товарів</button>
+</form>

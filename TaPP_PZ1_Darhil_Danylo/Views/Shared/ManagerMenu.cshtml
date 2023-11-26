@@ -1,0 +1,27 @@
+﻿@{
+    ViewData["Title"] = "Меню менеджера";
+}
+<head>
+    <style>
+        .centered-container {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: 60vh;
+            text-align: center;
+        }
+    </style>
+</head>
+<div class="text-center">
+    <h1 class="display-2">Меню</h1>
+</div>
+
+    <body>
+        <div class="centered-container">
+        <a type="button" class="btn btn-lg btn-outline-primary mb-2" style="width: 300px;" href="@Url.ActionLink("GetManagerParts", "ManagerParts")">Автозапчастини</a>
+        <a type="button" class="btn btn-lg btn-outline-primary mb-2" style="width: 300px;" href="@Url.ActionLink("ManagerUsers", "ManagerMenu")">Користувачі</a>
+        <a type="button" class="btn btn-lg btn-outline-primary mb-2" style="width: 300px;" href="@Url.ActionLink("ManagerOrders", "ManagerMenu")">Замовлення</a>
+
+    </div>
+    </body>

@@ -1,0 +1,159 @@
+﻿@{
+    ViewData["Title"] = "Замовлення";
+}
+<style>
+    .tbody {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        height: 60vh;
+    }
+
+    .container {
+        text-align: center;
+    }
+
+    .button-container {
+        margin-top: 10px;
+    }
+
+    .card-body {
+        text-align: left;
+    }
+
+    #input-count {
+        text-align: center;
+    }
+
+    th {
+        vertical-align: middle;
+    }
+
+    .inputs {
+        text-align: center;
+    }
+
+    p {
+        margin-left: 10px;
+    }
+
+    .description {
+        display: inline-block;
+        margin-right: 30px; 
+    }
+</style>
+
+<div class="text-center">
+    <h1 class="page-title">Замовлення</h1>
+</div>
+@if (Model.Change != 0)
+{
+    <div class="inputs">
+        <p>Замовлення №@Model.Change успішно змінене</p>
+    </div>
+}
+<div class="inputs">
+    <form method="get" asp-controller="Home" asp-action="ManagerMenu">
+        <button type="submit" class="btn btn-warning " style="width: 300px; margin-bottom: 25px; margin-top:10px;">Повернутись до меню</button>
+    </form>
+</div>
+
+<div class="container mb-3">
+    <div class="container">
+        @for (int i = 0; i < Model.OrdersAutoParts.Count; i++)
+        {
+            double price = 0;
+            <div class="card-body">
+                <div class="card mb-3">
+                    <div class="card-header">
+                        <div class="inputs">
+                            <p class="card-title"><b> Номер замовлення: @Model.OrdersAutoParts[i].Order.Id</b></p>
+                        </div>
+                    </div>
+                    <table class="table table-hover table-bordered">
+                        <tr>
+                            <th class="card-header" style="text-align:center;width:4%;">№</th>
+                            <th class="card-header" style="text-align:center;width:45%;">Назва автозапчастини</th>
+                            <th class="card-header" style="text-align:center;width:15%">Код</th>
+                            <th class="card-header" style="text-align:center;width:10%">Ціна</th>
+                            <th class="card-header" style="text-align:center;">Кількість деталей в наявності</th>
+                            <th class="card-header" style="text-align:center;">Обрана кількість деталей клієнтом</th>
+                        </tr>
+                        @{
+                            i--;
+                        }
+                        @do
+                        {
+                            i++;
+                            <tr>
+                                <td>@Model.OrdersAutoParts[i].AutoPart.Id</td>
+                                <td> @Model.OrdersAutoParts[i].AutoPart.Name</td>
+                                <td> @Model.OrdersAutoParts[i].AutoPart.Code</td>
+                                <td> @Model.OrdersAutoParts[i].AutoPart.Price</td>
+                                <td> @Model.OrdersAutoParts[i].AutoPart.Quantity</td>
+                                <td> @Model.OrdersAutoParts[i].AutoPart.SelectedPartCount</td>
+                                @{
+                                    price += Model.OrdersAutoParts[i].Price;
+                                }
+                            </tr>
+                        } while (i != Model.OrdersAutoParts.Count - 1 && Model.OrdersAutoParts[i + 1].Order.Id == Model.OrdersAutoParts[i].Order.Id);
+                    </table>
+                    @{
+                        string createdate = Model.OrdersAutoParts[i].Order.CreateDate.ToShortDateString();
+                        string updatedate = Model.OrdersAutoParts[i].Order.UpdateDate.ToShortDateString();
+                        TimeSpan difference = DateTime.Now.Subtract(Model.OrdersAutoParts[i].Order.UpdateDate);
+                        int differenceInDays = (int)difference.TotalDays;
+                    }
+                    <p>ПІБ клієнта: @Model.OrdersAutoParts[i].Order.Client.Surname @Model.OrdersAutoParts[i].Order.Client.Name @Model.OrdersAutoParts[i].Order.Client.Patronymic</p>
+                    <p>Телефон: @Model.OrdersAutoParts[i].Order.Client.Phone</p>
+                    <p>Пошта: @Model.OrdersAutoParts[i].Order.Client.Email</p>
+                    <p>Адреса: @Model.OrdersAutoParts[i].Order.Client.Adress</p>
+                    <p>Менеджер який оброблює замовлення: @Model.OrdersAutoParts[i].Order.Manager.Surname @Model.OrdersAutoParts[i].Order.Manager.Name</p>
+                    <p>Загальна вартість автозапчастин: @price грн</p>
+                    <p>
+                        <span class="description">Дата створення замовлення: @createdate</span>
+                        <span class="description">Дата останнього оновлення замовлення: @updatedate</span>
+                    </p>
+                    <p>Днів з останнього оновлення: @differenceInDays</p>
+                    <form method="post" asp-controller="ManagerOrders" asp-action="ChangeStatus">
+                        <p style="display: flex; align-items: center;">
+                            <span style="margin-right: 5px; width:20%;">Статус замовлення:</span>
+                            <select id="statusid" name="statusname" class="form-control" required>
+                                <option value="">@Model.OrdersAutoParts[i].Order.Status.Name</option>
+                                @foreach (var status in Model.OrdersStatuses)
+                                {
+                                    @if (status.Name != Model.OrdersAutoParts[i].Order.Status.Name)
+                                    {
+                                        if (Model.OrdersAutoParts[i].Order.Status.Name == "В обробці" && (status.Name == "Скасовано" || status.Name == "Підтверджено"))
+                                        {
+                                            <option value="@status.Name"> @status.Name </option>
+                                        }
+                                        else if (Model.OrdersAutoParts[i].Order.Status.Name == "Підтверджено" && status.Name == "Скасовано")
+                                        {
+                                            <option value="@status.Name"> @status.Name </option>
+                                        }
+                                        else if (Model.OrdersAutoParts[i].Order.Status.Name == "Сплачено" && status.Name == "Відправлено")
+                                        {
+                                            <option value="@status.Name"> @status.Name </option>
+                                        }
+                                        else if (Model.OrdersAutoParts[i].Order.Status.Name == "Відправлено" && status.Name == "Завершено")
+                                        {
+                                            <option value="@status.Name"> @status.Name </option>
+                                        }
+                                    }
+                                }
+                            </select>
+                        </p>
+                        <div class="inputs">
+                            <input type="hidden" name="id" value="@Model.OrdersAutoParts[i].Order.Id" />
+                            @if (Model.OrdersAutoParts[i].Order.Status.Name != "Завершено" || Model.OrdersAutoParts[i].Order.Status.Name != "Скасовано")
+                            {
+                                <button type="submit" class="btn btn-danger с mb-3" style="text-align:center;">Змінити статус</button>
+                            }
+                        </div>
+                    </form>
+                </div>
+            </div>
+        }
+    </div>
+</div>

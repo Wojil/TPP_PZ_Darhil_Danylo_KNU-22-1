@@ -1,0 +1,25 @@
+﻿@{
+    ViewData["Title"] = "Головна";
+}
+
+<head>
+    <style>
+        .centered-container {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: 60vh;
+            text-align: center;
+        }
+    </style>
+</head>
+<div class="text-center">
+    <h1 class="display-4 mb-5">Ласкаво просимо!</h1>
+    </div>
+<body>
+    <div class="centered-container">
+            <a type="button" class="btn btn-lg btn-outline-primary mb-2" style="width: 300px;" href="@Url.ActionLink("ClientPartsCatalog", "Home")">Клієнт</a>
+        <a type="button" class="btn btn-lg btn-outline-primary" style="width: 300px;" href="@Url.ActionLink("ManagerMenu", "Home")">Продавець</a>
+    </div>
+</body>

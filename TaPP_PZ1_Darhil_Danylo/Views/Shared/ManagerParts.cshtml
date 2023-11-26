@@ -1,0 +1,121 @@
+﻿@{
+    ViewData["Title"] = "Каталог автозапчастин";
+}
+
+<style>
+    .table, .table-info {
+        border-color: black;
+    }
+
+    td {
+        vertical-align: middle;
+        text-align: center;
+    }
+
+    th {
+        vertical-align: middle;
+        text-align: center;
+    }
+
+    .inputs {
+        text-align: center;
+    }
+</style>
+<div class="text-center">
+    <h1 class="page-title">Автозапчастини</h1>
+</div>
+<div class="inputs">
+    <form method="get" asp-controller="ManagerParts" asp-action="SearchAutoParts">
+        <label for="searchInput" style="margin-right: 10px;">Пошук:</label>
+        <input type="text" id="criteriaid" name="searchcriteria" style="width:70%; margin-right: 10px;" placeholder="Введіть назву або код автозапчастини для пошуку...">
+        <button type="submit" class="btn btn-warning" style="margin-bottom: 15px; margin-top: 10px;">Знайти</button>
+    </form>
+</div>
+
+<div class="text-center">
+    <form method="get" action="@Url.Action("AddPart","ManagerParts")">
+        <button type="submit" class="btn btn-warning " style="width: 300px; margin-bottom: 25px; margin-top:10px;">
+            Додати нову автозапчастину
+        </button>
+    </form>
+    <form method="get" asp-controller="Home" asp-action="ManagerMenu">
+        <button type="submit" class="btn btn-warning " style="width: 300px; margin-bottom:20px;">Повернутись до меню</button>
+    </form>
+
+    <table class="table table-hover table-bordered">
+        <thead class="table-info">
+            <tr>
+                <th>№</th>
+                <th>Назва автозапчастини</th>
+                <th>Код</th>
+                <th>Марка автомобіля</th>
+                <th>Тип</th>
+                <th>Категорія</th>
+                <th>Виробник</th>
+                <th>Країна виробник</th>
+                <th>Ціна</th>
+                <th>Кількість</th>
+                <th>Видалити</th>
+                <th>Змінити</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var autopart in Model)
+            {
+                <tr>
+                    <td>@autopart.Id</td>
+                    <td>@autopart.Name</td>
+                    <td>@autopart.Code</td>
+                    <td>@autopart.AutoModel.AutoModelName</td>
+                    <td>@autopart.PartType.TypeName</td>
+                    <td>@autopart.PartCategory.CategoryName</td>
+                    <td>@autopart.ManufacturerBrand.BrandName</td>
+                    <td>@autopart.ManufacturerCountry.CountryName</td>
+                    <td>@autopart.Price</td>
+                    <td>@autopart.Quantity</td>
+                    <td>
+                        @if (autopart.Quantity == 0)
+                        {
+                            <button type="submit" class="add-to-cart-btn disabled" disabled>Видалити</button>
+                        }
+                        else
+                        {
+                            <form method="post" action="@Url.Action("Delete","ManagerParts")">
+                                <input type="hidden" name="id" value="@autopart.Id" />
+                                <input type="hidden" name="autopart" value="@autopart" />
+                                <button type="submit" class="btn btn-danger">Видалити</button>
+                            </form>
+                        }
+                    </td>
+                    <td>
+                        @if (autopart.Quantity == 0)
+                        {
+                            <button type="submit" class="add-to-cart-btn disabled" disabled>Змінити</button>
+                        }
+                        else
+                        {
+                            <form method="get" action="@Url.Action("UpdatePart","ManagerParts")">
+                                <input type="hidden" name="id" value="@autopart.Id" />
+                                <button type="submit" class="btn btn-info">Змінити</button>
+                            </form>
+                        }
+                    </td>
+
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+
+
+
+<style>
+    .add-to-cart-btn.disabled {
+        background-color: indianred;
+        cursor: not-allowed;
+    }
+
+        .add-to-cart-btn.disabled:hover {
+            background-color: #ccc; 
+        }
+</style>

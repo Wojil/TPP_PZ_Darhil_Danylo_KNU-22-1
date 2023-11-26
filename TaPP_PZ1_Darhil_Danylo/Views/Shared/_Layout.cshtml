@@ -1,0 +1,73 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>AutoPartShop - @ViewData["Title"]</title>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/CourseProject.styles.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/litera.css" asp-append-version="true"/>
+</head>
+<body>
+    <header>
+        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
+            <div class="container-fluid">
+                <a class="navbar-brand">Магазин автозапчастин</a>
+                <label class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
+                        aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </label>
+                <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
+                    <ul class="navbar-nav flex-grow-1">
+                        @*<li class="nav-item">
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="ManagerMenu">Головна</a>
+                        </li>
+                        @if (ViewContext.RouteData.Values["action"].ToString().Equals("ClientPartsCatalog") || ViewContext.RouteData.Values["action"].ToString().Equals("Cart") || ViewContext.RouteData.Values["action"].ToString().Equals("ClientOrders") || ViewContext.RouteData.Values["action"].ToString().Equals("PayOrder") || ViewContext.RouteData.Values["action"].ToString().Equals("CancelOrder") || ViewContext.RouteData.Values["action"].ToString().Equals("SubmitOrder") || ViewContext.RouteData.Values["action"].ToString().Equals("SearchAutoParts"))
+                        {
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="ClientPartsCatalog">Каталог</a>
+                        </li>
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-area="" asp-controller="ClientParts" asp-action="Cart">Кошик</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-area="" asp-controller="ClientParts" asp-action="ClientOrders">Мої замовлення</a>
+                            </li>
+
+                        }
+                        @if (ViewContext.RouteData.Values["action"].ToString().Equals("ManagerMenu") || ViewContext.RouteData.Values["action"].ToString().Equals("ManagerOrders") || ViewContext.RouteData.Values["action"].ToString().Equals("ManagerAutoParts") || ViewContext.RouteData.Values["action"].ToString().Equals("AddPart") || ViewContext.RouteData.Values["action"].ToString().Equals("UpdatePart") || ViewContext.RouteData.Values["action"].ToString().Equals("DeletePart"))*@
+                        @*{*@
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="ManagerMenu">Меню</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-area="" asp-controller="ManagerParts" asp-action="GetManagerParts">Автозапчастини</a>
+                            </li>
+                            <li class="nav-item">
+                            <a class="nav-link text-dark" asp-area="" asp-controller="ManagerMenu asp-action="ManagerOrders">Замовлення</a>
+                            </li>
+                       @*}*@
+
+                    </ul>
+                </div>
+            </div>
+        </nav>
+    </header>
+    <div class="section">
+        <main role="main" class="pb-3" style="margin-bottom: 60px;">
+            @RenderBody()
+        </main>
+    </div>
+
+    <footer class="border-top footer text-muted mt-5">
+        <div class="container">
+            &copy; 2023 - CourseProject - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+        </div>
+    </footer>
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>
