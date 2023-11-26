@@ -12,7 +12,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\TPP_PZ1_Darhil_Danylo.DAL\TPP_PZ1_Darhil_Danylo.DAL.csproj" />
+    <ProjectReference Include="..\TPP_PZ1_Darhil_Danylo.DAL\TPP_PZ_Darhil_Danylo.DAL.csproj" />
   </ItemGroup>
 
 </Project>
