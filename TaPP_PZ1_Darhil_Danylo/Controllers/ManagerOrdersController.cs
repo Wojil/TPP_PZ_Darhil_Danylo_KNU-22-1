@@ -1,13 +1,13 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using MySql.Data.MySqlClient;
-using TPP_PZ_Darhil_Danylo.DAL.ViewModels;
+using TPP_PZ1_Darhil_Danylo.DAL.ViewModels;
 using TPP_PZ1_Darhil_Danylo.DAL.Models;
 
 namespace CourseProject.Controllers
 {
     public class ManagerOrdersController : Controller
-    {
+    {/*
         MySqlConnection connection = new MySqlConnection("server=localhost; port=3306; database=coursework2023tkp; user=root; password=root");
         // GET: ManagerOrdersController
         public ActionResult Index()
@@ -25,10 +25,10 @@ namespace CourseProject.Controllers
             var command = new MySqlCommand(updateorder, connection);
             if (statusname == "Відправлено")
             {
-               /* var changequantity = "UPDATE autoparts SET `quantity` =quantity-o.orders.ordersautoparts " +
-    "(select statusid from orderstatus where statusname='" + statusname + "')," +
-    " `managerid` = '2', `updatedate`='" + DateTime.Now.ToString("yyyy-MM-dd") + "' WHERE (`orderid` = '" + id + "');";
-               */
+               // var changequantity = "UPDATE autoparts SET `quantity` =quantity-o.orders.ordersautoparts " +
+   // "(select statusid from orderstatus where statusname='" + statusname + "')," +
+   // " `managerid` = '2', `updatedate`='" + DateTime.Now.ToString("yyyy-MM-dd") + "' WHERE (`orderid` = '" + id + "');";
+               
             }
             command.ExecuteNonQuery();
             List<OrdersAutoParts> ordersAutoParts = new List<OrdersAutoParts>();
@@ -115,7 +115,7 @@ namespace CourseProject.Controllers
             connection.Close();
 
             return View("ManagerOrders", listmodel);
-        }
+        }*/
 
         // GET: ManagerOrdersController/Create
     }

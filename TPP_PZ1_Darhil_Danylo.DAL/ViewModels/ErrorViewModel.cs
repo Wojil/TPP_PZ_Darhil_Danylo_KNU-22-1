@@ -1,4 +1,4 @@
-namespace TPP_PZ_Darhil_Danylo.DAL.ViewModels
+namespace TPP_PZ1_Darhil_Danylo.DAL.ViewModels
 {
     public class ErrorViewModel
     {

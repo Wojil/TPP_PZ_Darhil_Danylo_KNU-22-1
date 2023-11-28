@@ -2,7 +2,7 @@
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using MySql.Data.MySqlClient;
-using TPP_PZ_Darhil_Danylo.DAL.ViewModels;
+using TPP_PZ1_Darhil_Danylo.DAL.ViewModels;
 
 namespace CourseProject.Controllers
 {
@@ -10,7 +10,7 @@ namespace CourseProject.Controllers
     {
         MySqlConnection connection = new MySqlConnection("server=localhost; port=3306; database=coursework2023tkp; user=root; password=12345");
         // GET: ManagerMenuController
-        public ActionResult ManagerParts()
+     /*   public ActionResult ManagerParts()
         {
             connection.Open();
 
@@ -66,8 +66,8 @@ namespace CourseProject.Controllers
             reader.Close();
             return View("ManagerParts", autoparts);
 
-        }
-        public ActionResult ManagerOrders(int changeid=0)
+        }*/
+       /* public ActionResult ManagerOrders(int changeid=0)
         {
             List<OrdersAutoParts> ordersAutoParts = new List<OrdersAutoParts>();
             List<OrderStatus> statusList = new List<OrderStatus>();
@@ -153,6 +153,6 @@ namespace CourseProject.Controllers
             };
             connection.Close();
             return View(listmodel);
-        }
+        }*/
     }
 }

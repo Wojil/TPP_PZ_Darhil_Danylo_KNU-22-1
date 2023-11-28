@@ -7,8 +7,8 @@ using System.Threading.Tasks;
 using TPP_PZ1_Darhil_Danylo.DAL.DAO.Interfaces;
 using TPP_PZ1_Darhil_Danylo.DAL.Models;
 using TPP_PZ1_Darhil_Danylo.DAL.SQLConnection;
-namespace TPP_PZ_Darhil_Danylo.DAL.DAO.DAOImp
-{
+namespace TPP_PZ1_Darhil_Danylo.DAL.DAO.DAOImp
+{ 
     public class ManufacturerCountryDAO : IDAO<ManufacturerCountry>
     {
         private SQLContext _sqlContext;
@@ -42,7 +42,7 @@ namespace TPP_PZ_Darhil_Danylo.DAL.DAO.DAOImp
             var reader = command.ExecuteReader();
             while (reader.Read())
             {
-                ManufacturerCountry manufacturerCountry = new ManufacturerCountry.Builder().WithId(reader.GetInt32(10)).WithName(reader.GetString(11)).Build();
+                ManufacturerCountry manufacturerCountry = new ManufacturerCountry.Builder().WithId(reader.GetInt32(0)).WithName(reader.GetString(1)).Build();
                 manufacturerCountries.Add(manufacturerCountry);
             }
             reader.Close();

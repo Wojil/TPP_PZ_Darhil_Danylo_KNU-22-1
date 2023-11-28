@@ -1,14 +1,14 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using MySql.Data.MySqlClient;
-using TPP_PZ_Darhil_Danylo.DAL.ViewModels;
+using TPP_PZ1_Darhil_Danylo.DAL.ViewModels;
 using TPP_PZ1_Darhil_Danylo.DAL.Models;
 
 namespace CourseProject.Controllers
 {
     public class ClientOrdersController : Controller
     {
-        MySqlConnection connection = new MySqlConnection("server=localhost; port=3306; database=coursework2023tkp; user=root; password=root");
+        /*MySqlConnection connection = new MySqlConnection("server=localhost; port=3306; database=coursework2023tkp; user=root; password=root");
         // GET: ManagerOrdersController
         public ActionResult Index()
         {
@@ -262,6 +262,6 @@ namespace CourseProject.Controllers
             {
                 return View();
             }
-        }
+        }*/
     }
 }

@@ -63,9 +63,19 @@
                 _autopart.AutoModel = new AutoModel.Builder().WithId(Id).WithName(Name).Build();
                 return this;
             }
+            public Builder WithAutomodel(string Name)
+            {
+                _autopart.AutoModel = new AutoModel.Builder().WithName(Name).Build();
+                return this;
+            }
             public Builder WithManufacturerBrand(int Id, string Name)
             {
                 _autopart.ManufacturerBrand = new ManufacturerBrand.Builder().WithId(Id).WithName(Name).Build();
+                return this;
+            }
+            public Builder WithManufacturerBrand(string Name)
+            {
+                _autopart.ManufacturerBrand = new ManufacturerBrand.Builder().WithName(Name).Build();
                 return this;
             }
             public Builder WithManufacturerCountry(int Id, string Name)
@@ -73,9 +83,19 @@
                 _autopart.ManufacturerCountry = new ManufacturerCountry.Builder().WithId(Id).WithName(Name).Build();
                 return this;
             }
+            public Builder WithManufacturerCountry(string Name)
+            {
+                _autopart.ManufacturerCountry = new ManufacturerCountry.Builder().WithName(Name).Build();
+                return this;
+            }
             public Builder WithPartCategory(int Id, string Name)
             {
                 _autopart.PartCategory = new PartCategory.Builder().WithId(Id).WithName(Name).Build();
+                return this;
+            }
+            public Builder WithPartCategory(string Name)
+            {
+                _autopart.PartCategory = new PartCategory.Builder().WithName(Name).Build();
                 return this;
             }
             public Builder WithPartType(int Id, string Name)
@@ -83,6 +103,12 @@
                 _autopart.PartType = new PartType.Builder().WithId(Id).WithName(Name).Build();
                 return this;
             }
+            public Builder WithPartType(string Name)
+            {
+                _autopart.PartType = new PartType.Builder().WithName(Name).Build();
+                return this;
+            }
+
             public Builder WithSelectedPartCount(int Count)
             {
                 _autopart.SelectedPartCount = Count;

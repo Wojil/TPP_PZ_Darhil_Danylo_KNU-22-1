@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using TPP_PZ1_Darhil_Danylo.DAL.DAO.Interfaces;
 using TPP_PZ1_Darhil_Danylo.DAL.Models;
 
-namespace TPP_PZ_Darhil_Danylo.DAL.DAO.DAOImp
+namespace TPP_PZ1_Darhil_Danylo.DAL.DAO.DAOImp
 {
     internal class ClientDAO : IDAO<Client>
     {

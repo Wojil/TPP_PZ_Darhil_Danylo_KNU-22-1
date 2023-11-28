@@ -5,7 +5,7 @@ using MySql.Data.MySqlClient;
 using System.Data.Common;
 using MySqlX.XDevAPI;
 using Org.BouncyCastle.Asn1.X509;
-using CourseProject.Models;
+using TPP_PZ1_Darhil_Danylo.DAL.ViewModels;
 
 namespace CourseProject.Controllers
 {
@@ -30,7 +30,7 @@ namespace CourseProject.Controllers
                 return View();
         }
 
-        public IActionResult ClientPartsCatalog()
+      /*  public IActionResult ClientPartsCatalog()
         {
             connection.Open();
 
@@ -85,7 +85,7 @@ namespace CourseProject.Controllers
             }
             reader.Close();
             return View(autoparts);
-        }
+        }*/
         public IActionResult ManagerMenu()
         {
             return View();

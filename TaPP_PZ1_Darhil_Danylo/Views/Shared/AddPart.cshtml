@@ -36,7 +36,7 @@
         <div class="tbody ">
             <b style="font-size: 20px;">Новий товар був успішно доданий !</b>
         </div>
-        <form method="get" action="@Url.Action("AddPart","ManagerParts")">
+        <form method="get" action="@Url.Action("AddPart","AddPart")">
             <button type="submit" class="btn btn-info" style="width: 300px;">Додати ще один товар</button>
         </form>
 
@@ -126,6 +126,6 @@
     }
 </div>
 
-<form method="get" style="text-align:center; display:flex; justify-content:center; margin-bottom: 10px;" action="@Url.Action("ManagerParts","ManagerMenu")">
+<form method="get" style="text-align:center; display:flex; justify-content:center; margin-bottom: 10px;" action="@Url.Action("GetAutoParts","ManagerMenu")">
     <button type="submit" class="btn btn-warning" style="width: 300px;">Повернутись до товарів</button>
 </form>

@@ -3,13 +3,13 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using MySqlX.XDevAPI.Common;
 using MySql.Data.MySqlClient;
-using TPP_PZ_Darhil_Danylo.DAL.ViewModels;
+using TPP_PZ1_Darhil_Danylo.DAL.ViewModels;
 
 namespace CourseProject.Controllers
 {
     public class CartController : Controller
     {
-        MySqlConnection connection = new MySqlConnection("server=localhost; port=3306; database=coursework2023tkp; user=root; password=root");
+       /* MySqlConnection connection = new MySqlConnection("server=localhost; port=3306; database=coursework2023tkp; user=root; password=root");
         // GET: CartController
         public ActionResult Index()
         {
@@ -63,6 +63,6 @@ namespace CourseProject.Controllers
             minuspart.AutoPart.Id = Convert.ToInt32(lastid);
             CartParts.Add(minuspart);
             return View("Cart", CartParts);
-        }
+        }*/
     }
 }

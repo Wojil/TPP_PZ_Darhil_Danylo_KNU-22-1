@@ -33,7 +33,7 @@
 </div>
 
 <div class="text-center">
-    <form method="get" action="@Url.Action("AddPart","ManagerParts")">
+    <form method="get" action="@Url.Action("AddPart","AddPart")">
         <button type="submit" class="btn btn-warning " style="width: 300px; margin-bottom: 25px; margin-top:10px;">
             Додати нову автозапчастину
         </button>
@@ -94,7 +94,7 @@
                         }
                         else
                         {
-                            <form method="get" action="@Url.Action("UpdatePart","ManagerParts")">
+                            <form method="get" action="@Url.Action("UpdatePart","UpdatePart")">
                                 <input type="hidden" name="id" value="@autopart.Id" />
                                 <button type="submit" class="btn btn-info">Змінити</button>
                             </form>

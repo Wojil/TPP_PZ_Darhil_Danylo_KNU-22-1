@@ -8,7 +8,7 @@ using TPP_PZ1_Darhil_Danylo.DAL.DAO.Interfaces;
 using TPP_PZ1_Darhil_Danylo.DAL.SQLConnection;
 using MySql.Data.MySqlClient;
 
-namespace TPP_PZ_Darhil_Danylo.DAL.DAO.DAOImp
+namespace TPP_PZ1_Darhil_Danylo.DAL.DAO.DAOImp
 {
     public class AutoModelDAO : IDAO<AutoModel>
     {

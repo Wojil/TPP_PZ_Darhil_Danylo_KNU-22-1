@@ -1,40 +1,41 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using MySql.Data.MySqlClient;
-using TPP_PZ_Darhil_Danylo.DAL.ViewModels;
+using TPP_PZ1_Darhil_Danylo.DAL.ViewModels;
+using TPP_PZ1_Darhil_Danylo.DAL.DAO.DAOImp;
+using TPP_PZ1_Darhil_Danylo.DAL.Models;
 
-namespace CourseProject.Controllers
+namespace TPP_PZ1_Darhil_Danylo.Controllers
 {
     public class UpdatePartController : Controller
     {
-        MySqlConnection connection = new MySqlConnection("server=localhost; port=3306; database=coursework2023tkp; user=root; password=12345");
-        // GET: AddPartController
-        public ActionResult Index()
-        {
-            return View();
-        }
-
-        // GET: AddPartController/Details/5
+        PartTypeDAO PartTypeDAO = new PartTypeDAO();
+        PartCategoryDAO PartCategoryDAO = new PartCategoryDAO();
+        ManufacturerCountryDAO ManufacturerCountryDAO = new ManufacturerCountryDAO();
+        ManufacturerBrandDAO ManufacturerBrandDAO = new ManufacturerBrandDAO();
+        AutoModelDAO AutoModelDAO = new AutoModelDAO();
+        AutoPartDAO AutoPartDAO = new AutoPartDAO();
         public ActionResult BackToAllParts()
         {
-            return RedirectToAction(controllerName: "ManagerMenu", actionName: "ManagerAutoParts");
+            return RedirectToAction(controllerName: "ManagerAutoParts", actionName: "ManagerAutoParts");
         }
-
+        public ActionResult UpdatePart(int id)
+        {
+            PartPropertiesViewModel partProperties = new PartPropertiesViewModel();
+            partProperties.ManufacturerBrands = ManufacturerBrandDAO.GetAll();
+            partProperties.ManufacturerCountries = ManufacturerCountryDAO.GetAll();
+            partProperties.AutoModels = AutoModelDAO.GetAll();
+            partProperties.PartCategories = PartCategoryDAO.GetAll();
+            partProperties.PartTypes = PartTypeDAO.GetAll();
+            partProperties.AutoPart = AutoPartDAO.Get(id);
+            return View(partProperties);
+        }
         public ActionResult Update(int id, string name, string code, string automodel, string parttype,string partcategory,string brand, string country, string description,decimal price,int quantity)
         {
             if (description == null)
                 description = " ";
-            connection.Open();
-            var selectautopart = "UPDATE autoparts SET `code` ='" + code+ "'," +
-                "`automodelid` = (select automodelid from automodel where automodelname='" + automodel+"')," +
-                " `categoryid` =(select categoryid from partcategory where categoryname='" + partcategory+"')," +
-                " `typeid` =(select typeid from parttype where typename='" + parttype+"')," +
-                " `brandid` =(select brandid from manufacturerbrand where brandname='" + brand+"')," +
-                " `countryid` = (select countryid from manufacturercountry where countryname='" + country + "')," +
-                " `partname` = '" + name+ "', `price` ='" + price+ "',`partdescription` = '" + description+ "',`quantity` = '" + quantity+ "' " +
-                " WHERE `autopartid` = '"+id+"';";
-            var command = new MySqlCommand(selectautopart, connection);
-            command.ExecuteNonQuery();
+            AutoPart autopart = new AutoPart.Builder().WithId(id).WithName(name).WithCode(code).WithAutomodel(automodel).WithPartType(parttype).WithPartCategory(partcategory).WithManufacturerBrand(brand).WithManufacturerCountry(country).WithDescription(description).WithPrice(price).WithQuantity(quantity).Build();
+            AutoPartDAO.Update(autopart);
             PartPropertiesViewModel configpropertie = null;
             return View("UpdatePart", configpropertie);
         }
