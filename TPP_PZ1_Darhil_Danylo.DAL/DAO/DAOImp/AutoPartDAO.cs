@@ -41,7 +41,7 @@ namespace TPP_PZ1_Darhil_Danylo.DAL.DAO.DAOImp
                          "join automodel m on a.automodelid = m.automodelid " +
                          "join manufacturerbrand b on b.brandid = a.brandid " +
                          "join manufacturercountry mc on mc.countryid = a.countryid" +
-                         " where a.partname like %@searchcriteria% or a.code like %@searchcriteria%;";
+                         " where a.partname like @searchcriteria or a.code like @searchcriteria;";
         private const string _updatePartQuery = "UPDATE autoparts SET `code` =@code," +
     "`automodelid` = (select automodelid from automodel where automodelname=@automodel)," +
     " `categoryid` =(select categoryid from partcategory where categoryname=@partcategory)," +
@@ -122,7 +122,7 @@ namespace TPP_PZ1_Darhil_Danylo.DAL.DAO.DAOImp
         {
             var connection = _sqlContext.GetConnection();
             var command = new MySqlCommand(_searchAutoPartByCodeOrName, connection);
-            command.Parameters.AddWithValue("@searchcriteria", searchcriteria);
+            command.Parameters.AddWithValue("@searchcriteria","%"+ searchcriteria+"%");
             var reader = command.ExecuteReader();
             List<AutoPart> autoparts = new List<AutoPart>();
             while (reader.Read())
