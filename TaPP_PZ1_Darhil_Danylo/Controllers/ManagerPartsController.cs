@@ -25,7 +25,7 @@ namespace TPP_PZ1_Darhil_Danylo.Controllers
         }
         public ActionResult SearchAutoParts(string searchcriteria)
         {
-            List<AutoPart> autoparts = AutoPartDAO.SearchAutoPart(searchcriteria);
+            List<AutoPart> autoparts = AutoPartDAO.SearchByCriteria(searchcriteria);
             return View("ManagerParts", autoparts);
         }
 

@@ -13,5 +13,6 @@ namespace TPP_PZ1_Darhil_Danylo.DAL.DAO.Interfaces
         public void Create(T obj);
         public void Update(T obj);
         public void Delete(int id);
+        public List<T> SearchByCriteria(string criteria);
     }
 }

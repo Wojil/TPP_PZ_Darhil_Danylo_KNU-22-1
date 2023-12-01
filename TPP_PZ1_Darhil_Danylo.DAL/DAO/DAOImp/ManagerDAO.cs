@@ -30,6 +30,11 @@ namespace TPP_PZ1_Darhil_Danylo.DAL.DAO.DAOImp
             throw new NotImplementedException();
         }
 
+        public List<Manager> SearchByCriteria(string criteria)
+        {
+            throw new NotImplementedException();
+        }
+
         public void Update(Manager obj)
         {
             throw new NotImplementedException();

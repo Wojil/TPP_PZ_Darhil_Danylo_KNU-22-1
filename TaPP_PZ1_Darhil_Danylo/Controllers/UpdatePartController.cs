@@ -15,10 +15,6 @@ namespace TPP_PZ1_Darhil_Danylo.Controllers
         ManufacturerBrandDAO ManufacturerBrandDAO = new ManufacturerBrandDAO();
         AutoModelDAO AutoModelDAO = new AutoModelDAO();
         AutoPartDAO AutoPartDAO = new AutoPartDAO();
-        public ActionResult BackToAllParts()
-        {
-            return RedirectToAction(controllerName: "ManagerAutoParts", actionName: "ManagerAutoParts");
-        }
         public ActionResult UpdatePart(int id)
         {
             PartPropertiesViewModel partProperties = new PartPropertiesViewModel();

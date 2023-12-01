@@ -1,0 +1,89 @@
+﻿@{
+    ViewData["Title"] = "Редагування даних клієнта";
+}
+<style>
+    .tbody {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        height: 60vh;
+    }
+
+    .container {
+        text-align: center;
+    }
+
+    .button-container {
+        margin-top: 10px;
+    }
+
+    .card-body {
+        text-align: left;
+    }
+
+    #input-count {
+        text-align: center;
+    }
+
+</style>
+
+<div class="text-center">
+    <h1 class="page-title">Внесення змін до даних клієнта</h1>
+</div>
+<div class="container mb-3">
+    @if (Model == null)
+    {
+        <div class="tbody">
+            <b style="font-size: 20px;">Дані клієнта були успішно відредаговані !</b>
+        </div>
+    }
+    else
+    {
+        <form method="post" action="@Url.Action("Update","UpdateClient")">
+            <div class="card mb-3">
+                <div class="card-body">
+                    <div class="form-group">
+                        <input type="hidden" id="id" name="id" value="@Model.Id" class="form-control" />
+                        <label for="login">Логін:</label>
+                        <input type="text" id="loginid" name="login" value="@Model.Login" class="form-control" required />
+                    </div>
+                    <div class="form-group">
+                        <label for="password"> Пароль:</label>
+                        <input type="text" id="passwordid" name="password" value="@Model.Password" class="form-control" required />
+                    </div>
+                    <div class="form-group">
+                        <label for="name">Ім'я:</label>
+                        <input type="text" id="nameid" name="name" value="@Model.Name" class="form-control" />
+                    </div>
+                    <div class="form-group">
+                        <label for="surname">Прізвище:</label>
+                        <input type="text" id="surnameid" name="surname" value="@Model.Surname" class="form-control" />
+                    </div>
+                    <div class="form-group">
+                        <label for="patronymic">По-батькові:</label>
+                        <input type="text" id="patronymicid" name="patronymic" value="@Model.Patronymic" class="form-control" />
+                    </div>
+                    <div class="form-group">
+                        <label for="phone">Телефон:</label>
+                        <input type="text" id="phoneid" name="phone" value="@Model.Phone" class="form-control" />
+                    </div>
+                    <div class="form-group">
+                        <label for="email">Електронна пошта:</label>
+                        <input type="text" id="emailid" name="email" value="@Model.Email" class="form-control" />
+                    </div>
+                    <div class="form-group">
+                        <label for="adress">Адреса:</label>
+                        <input type="text" id="adressid" name="adress" value="@Model.Adress" class="form-control" />
+                    </div>
+                </div>
+                <div class="form-group" style="text-align:center; display:flex; justify-content:center; margin-bottom: 10px;">
+                    <button type="submit" class="btn btn-primary" style=" width:300px;">Відредагувати дані клієнта</button>
+                </div>
+            </div>
+        </form>
+    }
+</div>
+
+<form method="get" style="text-align:center; display:flex; justify-content:center; margin-bottom: 10px;" action="@Url.Action("GetClients","ManagerClients")">
+    <button type="submit" class="btn btn-warning" style="width: 300px;">Повернутись до списку клієнтів</button>
+</form>

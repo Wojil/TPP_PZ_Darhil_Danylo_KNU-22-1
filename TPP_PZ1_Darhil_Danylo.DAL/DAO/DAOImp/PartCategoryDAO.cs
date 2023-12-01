@@ -55,5 +55,10 @@ namespace TPP_PZ1_Darhil_Danylo.DAL.DAO.DAOImp
         {
             throw new NotImplementedException();
         }
+
+        public List<PartCategory> SearchByCriteria(string criteria)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

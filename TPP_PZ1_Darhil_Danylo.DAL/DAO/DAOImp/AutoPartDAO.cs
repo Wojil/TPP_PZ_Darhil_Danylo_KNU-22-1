@@ -33,7 +33,7 @@ namespace TPP_PZ1_Darhil_Danylo.DAL.DAO.DAOImp
                         "join manufacturerbrand b on b.brandid = a.brandid " +
                         "join manufacturercountry mc on mc.countryid = a.countryid where a.autopartid = @id; ";
         private const string _deletePartQuery = "DELETE FROM autoparts WHERE (`autopartid` = @id);";
-        private const string _searchAutoPartByCodeOrName = "select a.autopartid,a.code, m.automodelid, m.automodelname,c.categoryid,c.categoryname,t.typeid,t.typename,b.brandid,b.brandname,mc.countryid,mc.countryname," +
+        private const string _searchAutoPartByCriteriaQuery = "select a.autopartid,a.code, m.automodelid, m.automodelname,c.categoryid,c.categoryname,t.typeid,t.typename,b.brandid,b.brandname,mc.countryid,mc.countryname," +
                          "a.partname,a.price,a.partdescription,a.quantity " +
                          "from autoparts a " +
                          "join partcategory c on a.categoryid = c.categoryid " +
@@ -50,7 +50,7 @@ namespace TPP_PZ1_Darhil_Danylo.DAL.DAO.DAOImp
     " `countryid` = (select countryid from manufacturercountry where countryname=@country)," +
     " `partname` = @name, `price` =@price,`partdescription` = @description,`quantity` = @quantity " +
     " WHERE `autopartid` = @id;";
-        private const string _createPartQuery = "INSERT INTO autoparts (`code`, `automodelid`, `categoryid`, `typeid`, `brandid`, `countryid`, " +
+        private const string _insertPartQuery = "INSERT INTO autoparts (`code`, `automodelid`, `categoryid`, `typeid`, `brandid`, `countryid`, " +
         "`partname`, `price`, `partdescription`, `quantity`) " +
     "VALUES (@code, (select automodelid from automodel where automodelname=@automodel)," +
     " (select categoryid from partcategory where categoryname=@partcategory)," +
@@ -68,7 +68,7 @@ namespace TPP_PZ1_Darhil_Danylo.DAL.DAO.DAOImp
         public void Create(AutoPart obj)
         {
             var connection = _sqlContext.GetConnection();
-            var command = new MySqlCommand(_createPartQuery, connection);
+            var command = new MySqlCommand(_insertPartQuery, connection);
             command.Parameters.AddWithValue("@name", obj.Name);
             command.Parameters.AddWithValue("@code", obj.Code);
             command.Parameters.AddWithValue("@automodel", obj.AutoModel.AutoModelName);
@@ -99,8 +99,7 @@ namespace TPP_PZ1_Darhil_Danylo.DAL.DAO.DAOImp
             command.Parameters.AddWithValue("@id", id);
             var reader = command.ExecuteReader();
             AutoPart autopart = null;
-            while (reader.Read())
-            {
+            reader.Read();
                 autopart = new AutoPart.Builder()
                     .WithId(reader.GetInt32(0))
                     .WithCode(reader.GetString(1))
@@ -113,15 +112,14 @@ namespace TPP_PZ1_Darhil_Danylo.DAL.DAO.DAOImp
                     .WithPrice(reader.GetDecimal(13))
                     .WithDescription(reader.GetString(14))
                     .WithQuantity(reader.GetInt32(15)).Build();
-            }
             reader.Close();
             _sqlContext.CloseConnection();
             return autopart;
         }
-        public List<AutoPart> SearchAutoPart(string searchcriteria)
+        public List<AutoPart> SearchByCriteria(string searchcriteria)
         {
             var connection = _sqlContext.GetConnection();
-            var command = new MySqlCommand(_searchAutoPartByCodeOrName, connection);
+            var command = new MySqlCommand(_searchAutoPartByCriteriaQuery, connection);
             command.Parameters.AddWithValue("@searchcriteria","%"+ searchcriteria+"%");
             var reader = command.ExecuteReader();
             List<AutoPart> autoparts = new List<AutoPart>();

@@ -1,83 +1,28 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using TPP_PZ1_Darhil_Danylo.DAL.DAO.DAOImp;
+using TPP_PZ1_Darhil_Danylo.DAL.Models;
 
 namespace TPP_PZ_Darhil_Danylo.Controllers
 {
     public class ManagerClientsController : Controller
     {
-        // GET: ManagerClientsController
-        public ActionResult Index()
+        ClientDAO ClientDAO = new ClientDAO();
+        public ActionResult GetClients()
         {
-            return View();
+            List<Client> clients = ClientDAO.GetAll();
+            return View("ManagerClients", clients);
         }
-
-        // GET: ManagerClientsController/Details/5
-        public ActionResult Details(int id)
-        {
-            return View();
-        }
-
-        // GET: ManagerClientsController/Create
-        public ActionResult Create()
-        {
-            return View();
-        }
-
-        // POST: ManagerClientsController/Create
         [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Create(IFormCollection collection)
-        {
-            try
-            {
-                return RedirectToAction(nameof(Index));
-            }
-            catch
-            {
-                return View();
-            }
-        }
-
-        // GET: ManagerClientsController/Edit/5
-        public ActionResult Edit(int id)
-        {
-            return View();
-        }
-
-        // POST: ManagerClientsController/Edit/5
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Edit(int id, IFormCollection collection)
-        {
-            try
-            {
-                return RedirectToAction(nameof(Index));
-            }
-            catch
-            {
-                return View();
-            }
-        }
-
-        // GET: ManagerClientsController/Delete/5
         public ActionResult Delete(int id)
         {
-            return View();
+            ClientDAO.Delete(id);
+            return RedirectToAction(controllerName: "ManagerClients", actionName: "GetClients");
         }
-
-        // POST: ManagerClientsController/Delete/5
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Delete(int id, IFormCollection collection)
+        public ActionResult SearchClients(string searchcriteria)
         {
-            try
-            {
-                return RedirectToAction(nameof(Index));
-            }
-            catch
-            {
-                return View();
-            }
+            List<Client> clients = ClientDAO.SearchByCriteria(searchcriteria);
+            return View("ManagerClients", clients);
         }
     }
 }

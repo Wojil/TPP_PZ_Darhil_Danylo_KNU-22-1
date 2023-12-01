@@ -30,6 +30,11 @@ namespace TPP_PZ1_Darhil_Danylo.DAL.DAO.DAOImp
             throw new NotImplementedException();
         }
 
+        public List<OrderStatus> SearchByCriteria(string criteria)
+        {
+            throw new NotImplementedException();
+        }
+
         public void Update(OrderStatus obj)
         {
             throw new NotImplementedException();
