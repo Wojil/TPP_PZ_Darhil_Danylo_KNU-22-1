@@ -18,7 +18,7 @@
                 _order.Id = id;
                 return this;
             }
-            public Builder WithStatus(int Id, string Name)
+            public Builder WithStatus(int Id, string Name="")
             {
                 _order.Status = new OrderStatus.Builder().WithId(Id).WithName(Name).Build();
                 return this;
@@ -59,7 +59,26 @@
                 _order.Manager = new Manager.Builder().WithId(Id).WithLogin(Login).WithName(Name).WithSurname(Surname).WithPatronymic(Patronymic).WithPhone(Phone).WithEmail(Email).Build();
                 return this;
             }
-
+            public Builder WithClient(int Id, string Name, string Surname, string Patronymic, string Login)
+            {
+                _order.Client = new Client.Builder().WithId(Id).WithLogin(Login).WithName(Name).WithSurname(Surname).WithPatronymic(Patronymic).Build();
+                return this;
+            }
+            public Builder WithManager(int Id, string Name, string Surname, string Patronymic, string Login)
+            {
+                _order.Manager = new Manager.Builder().WithId(Id).WithLogin(Login).WithName(Name).WithSurname(Surname).WithPatronymic(Patronymic).Build();
+                return this;
+            }
+            public Builder WithManager(int Id)
+            {
+                _order.Manager = new Manager.Builder().WithId(Id).Build();
+                return this;
+            }
+            public Builder WithClient(int Id)
+            {
+                _order.Client = new Client.Builder().WithId(Id).Build();
+                return this;
+            }
             public Order Build()
             {
                 if (_order.Client==null || _order.Status==null)

@@ -20,11 +20,7 @@
             }
             public OrderStatus Build()
             {
-                if (string.IsNullOrEmpty(_orderstatus.Name))
-                {
-                    throw new InvalidOperationException("Назва статусу замовлення є null або порожня");
-                }
-                else return _orderstatus;
+                return _orderstatus;
             }
         }
 

@@ -56,11 +56,7 @@
             }
             public Manager Build()
             {
-                if (string.IsNullOrEmpty(_manager.Login) || string.IsNullOrEmpty(_manager.Name))
-                {
-                    throw new InvalidOperationException("Логін або ім'я менеджера є null або порожнім");
-                }
-                else return _manager;
+                return _manager;
             }
         }
 

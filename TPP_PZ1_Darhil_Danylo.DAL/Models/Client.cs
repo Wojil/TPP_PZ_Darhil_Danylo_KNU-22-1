@@ -62,11 +62,7 @@
             }
             public Client Build()
             {
-                if (string.IsNullOrEmpty(_client.Login) || string.IsNullOrEmpty(_client.Name))
-                {
-                    throw new InvalidOperationException("Логін або ім'я клієнта є null або порожнім");
-                }
-                else return _client;
+                return _client;
             }
         }
 

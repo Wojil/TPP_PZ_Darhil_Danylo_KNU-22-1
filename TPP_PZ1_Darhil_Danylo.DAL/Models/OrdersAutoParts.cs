@@ -9,7 +9,6 @@ namespace TPP_PZ1_Darhil_Danylo.DAL.Models
         public Order Order { get; set; } = null!;
         public double Price { get; set; }
         private OrdersAutoParts() { }
-
         public class Builder
         {
             private OrdersAutoParts _ordersAutoParts = new OrdersAutoParts();
@@ -46,6 +45,17 @@ namespace TPP_PZ1_Darhil_Danylo.DAL.Models
                 .WithQuantity(quantity).Build();
                 return this;
             }
+            public Builder WithAutopart(int id, int selectedpartcount, decimal price)
+            {
+                _ordersAutoParts.AutoPart = new AutoPart.Builder()
+                .WithId(id)
+                .WithSelectedPartCount(selectedpartcount)
+                .WithPrice(price)
+                .WithName(" ")
+                .WithCode(" ")
+                .Build();
+                return this;
+            }
 
             public Builder WithOrder(int id, int statusid,string statusname,DateTime createdate,
                 DateTime updatedate, string comment,int clientid,string login, string password,
@@ -80,6 +90,15 @@ namespace TPP_PZ1_Darhil_Danylo.DAL.Models
                     .WithStatus(statusid, statusname)
                     .WithClient(clientid, login, name, surname, patronymic, phone, email, adress)
                     .WithManager(managerid, managerlogin, managername, managersurname, managerpatronymic, managerphone, manageremail)
+                    .Build();
+                return this;
+            }
+            public Builder WithOrder(int id)
+            {
+                _ordersAutoParts.Order = new Order.Builder()
+                    .WithId(id)
+                    .WithClient(0)
+                    .WithStatus(0)
                     .Build();
                 return this;
             }

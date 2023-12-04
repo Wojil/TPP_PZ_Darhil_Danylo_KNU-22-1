@@ -1,5 +1,5 @@
 ﻿@{
-    ViewData["Title"] = "Редагування замовлення";
+    ViewData["Title"] = "Створення замовлення";
 }
 <style>
     .tbody {
@@ -35,31 +35,23 @@
 </style>
 
 <div class="text-center">
-    <h1 class="page-title">Внесення змін до замовлення</h1>
+    <h1 class="page-title">Створення нового замовлення</h1>
 </div>
 <div class="container mb-3">
     @if (Model == null)
     {
         <div class="tbody">
-            <b style="font-size: 20px;">Замовлення було успішно відредаговано!</b>
+            <b style="font-size: 20px;">Замовлення було успішно додано!</b>
         </div>
     }
     else
     {
-        <form method="post" action="@Url.Action("Update","UpdateOrder")">
+        <form method="post" action="@Url.Action("Create","AddOrder")">
             <div class="card mb-3">
                 <div class="card-body">
                     <div class="form-group">
-                        <input type="hidden" id="orderid" name="orderid" value="@Model.Order.Id" class="form-control" />
-                        <div class="center">
-                            <label for="orderid" class="bold">Номер замовлення:</label>
-                            <label for="orderid" class="bold">@Model.Order.Id</label>
-                        </div>
-                    </div>
-                    <div class="form-group">
                         <label for="statusid">Статус замовлення:</label>
                         <select id="statusid" name="statusid" class="form-control" required>
-                            <option value="@Model.Order.Status.Id">@Model.Order.Status.Name</option>
                             @foreach (var status in Model.OrderStatuses)
                             {
                                 <option value="@status.Id"> @status.Name </option>
@@ -68,20 +60,19 @@
                     </div>
                     <div class="form-group">
                         <label for="createdate">Дата створення замовлення:</label>
-                        <input type="text" id="createdateid" name="createdate" class="form-control" value="@Model.Order.CreateDate" required />
+                        <input type="text" id="createdateid" name="createdate" class="form-control" value=@DateTime.Now required />
                     </div>
                     <div class="form-group">
                         <label for="updatedate">Дата останнього оновлення замовлення:</label>
-                        <input type="text" id="updatedateid" name="updatedate" class="form-control" value="@Model.Order.UpdateDate" required />
+                        <input type="text" id="updatedateid" name="updatedate" class="form-control" value=@DateTime.Now required />
                     </div>
                     <div class="form-group">
                         <label for="comment">Коментар:</label>
-                        <input type="text" id="commentid" name="comment" class="form-control" value="@Model.Order.Comment" required />
+                        <input type="text" id="commentid" name="comment" class="form-control" value="comment" required />
                     </div>
                     <div class="form-group">
                         <label for="client">Клієнт:</label>
                         <select id="clientid" name="clientid" class="form-control" required>
-                            <option value="@Model.Order.Client.Id">@Model.Order.Client.Login @Model.Order.Client.Name @Model.Order.Client.Surname @Model.Order.Client.Patronymic</option>
                             @foreach (var client in Model.Clients)
                             {
                                 <option value="@client.Id">@client.Login @client.Name @client.Surname @client.Patronymic </option>
@@ -91,7 +82,6 @@
                     <div class="form-group">
                         <label for="manager">Менеджер:</label>
                         <select id="managerid" name="managerid" class="form-control" required>
-                            <option value="@Model.Order.Manager.Id">@Model.Order.Manager.Login @Model.Order.Manager.Name @Model.Order.Manager.Surname @Model.Order.Manager.Patronymic</option>
                             @foreach (var manager in Model.Managers)
                             {
                                 <option value="@manager.Id">@manager.Login @manager.Name @manager.Surname @manager.Patronymic </option>
@@ -100,7 +90,7 @@
                     </div>
                 </div>
                 <div class="form-group" style="text-align:center; display:flex; justify-content:center; margin-bottom: 10px;">
-                    <button type="submit" class="btn btn-primary" style=" width:300px;">Відредагувати замовлення</button>
+                    <button type="submit" class="btn btn-primary" style=" width:300px;">Створити нове замовлення</button>
                 </div>
             </div>
         </form>

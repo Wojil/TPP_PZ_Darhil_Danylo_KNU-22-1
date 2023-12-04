@@ -54,7 +54,7 @@
     </form>
 </div>
 <div class="inputs">
-    <form method="get" action="@Url.Action("AddClient","AddClient")">
+    <form method="get" action="@Url.Action("AddOrder","AddOrder")">
         <button type="submit" class="btn btn-warning " style="width: 300px; margin-bottom: 25px; margin-top:10px;">
             Додати нове замовлення
         </button>
@@ -123,13 +123,14 @@
                     {
                         <p><span class="description">Логін менеджера який оброблює замовлення: @Model[i].Order.Manager.Login</span><span class="description">Електронна пошта: @Model[i].Order.Manager.Email</span></p>
                         <p>Телефон менеджера який оброблює замовлення: @Model[i].Order.Manager.Phone</p>
-                        <p>Загальна вартість автозапчастин: @price грн</p>
                     }
+                    <p>Загальна вартість автозапчастин: @price грн</p>
                     <p>
                         <span class="description">Дата створення замовлення: @createdate</span>
                         <span class="description">Дата останнього оновлення замовлення: @updatedate</span>
                     </p>
                     <p>Днів з останнього оновлення: @differenceInDays</p>
+                    <p>Коментар: @Model[i].Order.Comment</p>
                     <div class="inputs">
 
                         <form method="get" action="@Url.Action("UpdateOrder","UpdateOrder")">

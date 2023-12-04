@@ -1,12 +1,13 @@
 ﻿@{
-    ViewData["Title"] = "Каталог автозапчастин";
+    ViewData["Title"] = "Додайте автозапчастини до замовлення";
 }
 
 <style>
-    .table, .table-info{
-        border-color:black;
+    .table, .table-info {
+        border-color: black;
     }
-    td{
+
+    td {
         vertical-align: middle;
         text-align: center;
     }
@@ -19,21 +20,23 @@
     .inputs {
         text-align: center;
     }
-
-    
 </style>
-@*<link rel="stylesheet" href="~/css/tablestyle.css"/>*@
 <div class="text-center">
-    <h1 class="page-title">Автозапчастини</h1>
+    <h1 class="page-title">Додайте автозапчастини до замовлення</h1>
 </div>
 <div class="inputs">
-    <form method="get" asp-controller="ClientParts" asp-action="SearchAutoParts">
+    <form method="get" asp-controller="AddOrderAutoParts" asp-action="SearchAutoParts">
         <label for="searchInput" style="margin-right: 10px;">Пошук:</label>
         <input type="text" id="criteriaid" name="searchcriteria" style="width:70%; margin-right: 10px;" placeholder="Введіть назву або код автозапчастини для пошуку...">
         <button type="submit" class="btn btn-warning" style="margin-bottom: 15px; margin-top: 10px;">Знайти</button>
     </form>
 </div>
+
 <div class="text-center">
+    <form method="get" style="text-align:center; display:flex; justify-content:center; margin-bottom: 10px;" action="@Url.Action("GetOrders","ManagerOrders")">
+        <button type="submit" class="btn btn-warning" style="width: 300px;">Повернутись до замовлень</button>
+    </form>
+
     <table class="table table-hover table-bordered">
         <thead class="table-info">
             <tr>
@@ -47,8 +50,8 @@
                 <th>Країна виробник</th>
                 <th>Ціна</th>
                 <th>Кількість</th>
-                <th>Додатковий опис</th>
-                <th>Обрання</th>
+                <th>Обрана кількість</th>
+                <th>Додати до кошика</th>
             </tr>
         </thead>
         <tbody>
@@ -63,22 +66,32 @@
                     <td>@autopart.PartCategory.CategoryName</td>
                     <td>@autopart.ManufacturerBrand.BrandName</td>
                     <td>@autopart.ManufacturerCountry.CountryName</td>
-                    <td>@autopart.Price</td>
-                    <td>@autopart.Quantity</td>
-                    <td>@autopart.Description</td>
                     <td>
-                       @if (autopart.Quantity == 0)
+                        @autopart.Price
+                    </td>
+                    <td>@autopart.Quantity</td>
+                                                <form method="get" action="@Url.Action("Create","AddOrderAutoParts")">
+
+                    <td>
+                        <div class="form-group">
+                            <input type="number" id="quantity" name="quantity" min="1" value="1" max=@autopart.Quantity class="form-control" required />
+                        </div>
+                    </td>
+                    <td>
+                        @if (autopart.Quantity == 0)
                         {
-                            <button type="submit" class="add-to-cart-btn disabled" disabled>Додати до кошика</button>
+                            <button type="submit" class="add-to-cart-btn disabled" disabled>Змінити</button>
                         }
                         else
                         {
-                            <form method="get" action="@Url.Action("AddToCart","ClientParts")">
                                 <input type="hidden" name="id" value="@autopart.Id" />
-                                <button type="submit" class="btn btn-info">Додати до кошика</button>
-                            </form>
+                                <input type="hidden" name="price" value="@autopart.Price" />
+                                <button type="submit" class="btn btn-info">Додати до замовлення</button>
                         }
                     </td>
+                    </form>
+
+
                 </tr>
             }
         </tbody>
@@ -94,6 +107,6 @@
     }
 
         .add-to-cart-btn.disabled:hover {
-            background-color: #ccc; /* сохраняем серый цвет фона при наведении на неактивную кнопку */
+            background-color: #ccc;
         }
 </style>

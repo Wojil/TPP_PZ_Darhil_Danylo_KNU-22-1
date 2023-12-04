@@ -3,6 +3,7 @@ using MySql.Data.MySqlClient;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection.PortableExecutable;
 using System.Text;
 using System.Threading.Tasks;
 using TPP_PZ1_Darhil_Danylo.DAL.DAO.Interfaces;
@@ -13,6 +14,7 @@ namespace TPP_PZ1_Darhil_Danylo.DAL.DAO.DAOImp
 {
     public class OrdersAutoPartsDAO : IDAO<OrdersAutoParts>
     {
+        private OrderDAO OrderDAO=new OrderDAO();
         private SQLContext _sqlContext;
         private const string _selectAllOrdersQuery = "SELECT oa.autopartid,oa.orderid,oa.partcount,oa.price,a.partname,a.code,a.price," +
          "a.quantity, s.statusid,s.statusname,o.createdate,o.updatedate,o.comment,o.managerid,m.name, m.surname," +
@@ -31,12 +33,18 @@ namespace TPP_PZ1_Darhil_Danylo.DAL.DAO.DAOImp
  " join client c on c.clientid=o.clientid" +
  " join manager m on m.managerid=o.managerid where oa.orderid like @searchcriteria or" +
             " concat(c.name,' ',c.surname,' ',c.patronymic) like @searchcriteria ;";
-        private const string _deleteOrderQuery = "delete from orders where (orderid=@id);";
-        private const string _deleteOrdersAutopartsQuery = "delete from ordersautoparts where (orderid=@id);";
-
+        private const string _deleteOrdersAutoPartsQuery = "delete from ordersautoparts where (orderid=@id);";
+        private const string _insertOrdersAutoPartsQuery = "insert into ordersautoparts (autopartid,orderid,partcount,price) values(@autopartid,@orderid,@partcount,@price);";
         public void Create(OrdersAutoParts obj)
         {
-            throw new NotImplementedException();
+            var connection = _sqlContext.GetConnection();
+            var command = new MySqlCommand(_insertOrdersAutoPartsQuery, connection);
+            command.Parameters.AddWithValue("@autopartid", obj.AutoPart.Id);
+            command.Parameters.AddWithValue("@orderid", obj.Order.Id);
+            command.Parameters.AddWithValue("@partcount", obj.AutoPart.SelectedPartCount);
+            command.Parameters.AddWithValue("@price", obj.AutoPart.Price);
+            command.ExecuteNonQuery();
+            _sqlContext.CloseConnection();
         }
         public OrdersAutoPartsDAO()
         {
@@ -45,13 +53,11 @@ namespace TPP_PZ1_Darhil_Danylo.DAL.DAO.DAOImp
         public void Delete(int id)
         {
             var connection = _sqlContext.GetConnection();
-            var command = new MySqlCommand(_deleteOrdersAutopartsQuery, connection);
-            command.Parameters.AddWithValue("@id", id);
-            command.ExecuteNonQuery();
-             command = new MySqlCommand(_deleteOrderQuery, connection);
+            var command = new MySqlCommand(_deleteOrdersAutoPartsQuery, connection);
             command.Parameters.AddWithValue("@id", id);
             command.ExecuteNonQuery();
             _sqlContext.CloseConnection();
+            OrderDAO.Delete(id);
         }
 
         public OrdersAutoParts Get(int id)
