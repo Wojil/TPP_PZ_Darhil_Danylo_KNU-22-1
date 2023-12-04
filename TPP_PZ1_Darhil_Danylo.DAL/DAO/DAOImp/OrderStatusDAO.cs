@@ -8,7 +8,7 @@ using TPP_PZ1_Darhil_Danylo.DAL.Models;
 
 namespace TPP_PZ1_Darhil_Danylo.DAL.DAO.DAOImp
 {
-    internal class OrderStatusDAO : IDAO<OrderStatus>
+    public class OrderStatusDAO : IDAO<OrderStatus>
     {
         public void Create(OrderStatus obj)
         {

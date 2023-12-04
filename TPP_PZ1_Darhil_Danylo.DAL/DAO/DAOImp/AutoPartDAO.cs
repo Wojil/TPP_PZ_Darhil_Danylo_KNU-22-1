@@ -43,21 +43,21 @@ namespace TPP_PZ1_Darhil_Danylo.DAL.DAO.DAOImp
                          "join manufacturercountry mc on mc.countryid = a.countryid" +
                          " where a.partname like @searchcriteria or a.code like @searchcriteria;";
         private const string _updatePartQuery = "UPDATE autoparts SET `code` =@code," +
-    "`automodelid` = (select automodelid from automodel where automodelname=@automodel)," +
-    " `categoryid` =(select categoryid from partcategory where categoryname=@partcategory)," +
-    " `typeid` =(select typeid from parttype where typename=@parttype)," +
-    " `brandid` = (select brandid from manufacturerbrand where brandname = @brand ), " +
-    " `countryid` = (select countryid from manufacturercountry where countryname=@country)," +
-    " `partname` = @name, `price` =@price,`partdescription` = @description,`quantity` = @quantity " +
-    " WHERE `autopartid` = @id;";
+                         "`automodelid` = (select automodelid from automodel where automodelname=@automodel)," +
+                         " `categoryid` =(select categoryid from partcategory where categoryname=@partcategory)," +
+                         " `typeid` =(select typeid from parttype where typename=@parttype)," +
+                         " `brandid` = (select brandid from manufacturerbrand where brandname = @brand ), " +
+                         " `countryid` = (select countryid from manufacturercountry where countryname=@country)," +
+                         " `partname` = @name, `price` =@price,`partdescription` = @description,`quantity` = @quantity " +
+                         " WHERE `autopartid` = @id;";
         private const string _insertPartQuery = "INSERT INTO autoparts (`code`, `automodelid`, `categoryid`, `typeid`, `brandid`, `countryid`, " +
-        "`partname`, `price`, `partdescription`, `quantity`) " +
-    "VALUES (@code, (select automodelid from automodel where automodelname=@automodel)," +
-    " (select categoryid from partcategory where categoryname=@partcategory)," +
-    " (select typeid from parttype where typename=@parttype)," +
-    " (select brandid from manufacturerbrand where brandname=@brand)," +
-    " (select countryid from manufacturercountry where countryname=@country)," +
-    " @name, @price, @description, @quantity);";
+                         "`partname`, `price`, `partdescription`, `quantity`) " +
+                         "VALUES (@code, (select automodelid from automodel where automodelname=@automodel)," +
+                         " (select categoryid from partcategory where categoryname=@partcategory)," +
+                         " (select typeid from parttype where typename=@parttype)," +
+                         " (select brandid from manufacturerbrand where brandname=@brand)," +
+                         " (select countryid from manufacturercountry where countryname=@country)," +
+                         " @name, @price, @description, @quantity);";
 
 
         public AutoPartDAO()

@@ -10,7 +10,7 @@ namespace TPP_PZ1_Darhil_Danylo.DAL.Models
         public double Price { get; set; }
         private OrdersAutoParts() { }
 
-        class Builder
+        public class Builder
         {
             private OrdersAutoParts _ordersAutoParts = new OrdersAutoParts();
             public Builder WithAutopart(int id, string code, int automodelid, string automodelname,
@@ -34,6 +34,19 @@ namespace TPP_PZ1_Darhil_Danylo.DAL.Models
 
                 return this;
             }
+            public Builder WithAutopart(int id, int selectedpartcount, string name, string code,
+                decimal price, int quantity)
+            {
+                _ordersAutoParts.AutoPart = new AutoPart.Builder()
+                .WithId(id)
+                .WithSelectedPartCount(selectedpartcount)
+                .WithName(name)
+                .WithCode(code)
+                .WithPrice(price)
+                .WithQuantity(quantity).Build();
+                return this;
+            }
+
             public Builder WithOrder(int id, int statusid,string statusname,DateTime createdate,
                 DateTime updatedate, string comment,int clientid,string login, string password,
                 string name,string surname, string patronymic, string phone,string email,
@@ -52,6 +65,25 @@ namespace TPP_PZ1_Darhil_Danylo.DAL.Models
                     .Build();
                 return this;
             }
+            public Builder WithOrder(int id, int statusid, string statusname, DateTime createdate,
+    DateTime updatedate, string comment, int clientid, string login,
+    string name, string surname, string patronymic, string phone, string email,
+    string adress, int managerid, string managerlogin,
+    string managername, string managersurname, string managerpatronymic,
+    string managerphone, string manageremail)
+            {
+                _ordersAutoParts.Order = new Order.Builder()
+                    .WithId(id)
+                    .WithComment(comment)
+                    .WithCreateDate(createdate)
+                    .WithUpdateDate(updatedate)
+                    .WithStatus(statusid, statusname)
+                    .WithClient(clientid, login, name, surname, patronymic, phone, email, adress)
+                    .WithManager(managerid, managerlogin, managername, managersurname, managerpatronymic, managerphone, manageremail)
+                    .Build();
+                return this;
+            }
+
             public Builder WithPrice(double Price)
             {
                 _ordersAutoParts.Price = Price;

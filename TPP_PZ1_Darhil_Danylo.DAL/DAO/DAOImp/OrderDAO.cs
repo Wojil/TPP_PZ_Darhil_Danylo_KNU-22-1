@@ -5,11 +5,14 @@ using System.Text;
 using System.Threading.Tasks;
 using TPP_PZ1_Darhil_Danylo.DAL.DAO.Interfaces;
 using TPP_PZ1_Darhil_Danylo.DAL.Models;
+using TPP_PZ1_Darhil_Danylo.DAL.SQLConnection;
 
 namespace TPP_PZ1_Darhil_Danylo.DAL.DAO.DAOImp
 {
     public class OrderDAO : IDAO<Order>
     {
+        private SQLContext _sqlContext;
+        
         public void Create(Order obj)
         {
             throw new NotImplementedException();

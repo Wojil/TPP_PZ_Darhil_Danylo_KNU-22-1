@@ -44,11 +44,22 @@
                 _order.Client = new Client.Builder().WithId(Id).WithLogin(Login).WithPassword(Password).WithName(Name).WithSurname(Surname).WithPatronymic(Patronymic).WithPhone(Phone).WithEmail(Email).WithAdress(Adress).Build();
                 return this;
             }
+            public Builder WithClient(int Id, string Login, string Name, string Surname, string Patronymic, string Phone, string Email, string Adress)
+            {
+                _order.Client = new Client.Builder().WithId(Id).WithLogin(Login).WithName(Name).WithSurname(Surname).WithPatronymic(Patronymic).WithPhone(Phone).WithEmail(Email).WithAdress(Adress).Build();
+                return this;
+            }
             public Builder WithManager(int Id, string Login, string Password, string Name, string Surname, string Patronymic, string Phone, string Email)
             {
                 _order.Manager = new Manager.Builder().WithId(Id).WithLogin(Login).WithPassword(Password).WithName(Name).WithSurname(Surname).WithPatronymic(Patronymic).WithPhone(Phone).WithEmail(Email).Build();
                 return this;
             }
+            public Builder WithManager(int Id, string Login, string Name, string Surname, string Patronymic, string Phone, string Email)
+            {
+                _order.Manager = new Manager.Builder().WithId(Id).WithLogin(Login).WithName(Name).WithSurname(Surname).WithPatronymic(Patronymic).WithPhone(Phone).WithEmail(Email).Build();
+                return this;
+            }
+
             public Order Build()
             {
                 if (_order.Client==null || _order.Status==null)

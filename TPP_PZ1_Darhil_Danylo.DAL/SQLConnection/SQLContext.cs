@@ -11,7 +11,7 @@ namespace TPP_PZ1_Darhil_Danylo.DAL.SQLConnection
 {
     public class SQLContext
     {
-        private static readonly string SQL_CONNECTION = "server=localhost; port=3306; database=coursework2023tkp; user=root; password=12345";
+        private static readonly string SQL_CONNECTION = "server=localhost; port=3306; database=tpp_pz_darhil; user=root; password=12345";
         private MySqlConnection _sqlConnection;
         private static SQLContext _sqlContext;
         private SQLContext()
