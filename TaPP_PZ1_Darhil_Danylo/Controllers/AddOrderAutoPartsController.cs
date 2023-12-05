@@ -4,17 +4,26 @@ using Microsoft.SqlServer.Management.Sdk.Sfc;
 using MySqlX.XDevAPI;
 using Newtonsoft.Json;
 using System.Management;
+using TPP_PZ_Darhil_Danylo.DAL.DAO.FactoryMethod;
 using TPP_PZ_Darhil_Danylo.DAL.ViewModels;
 using TPP_PZ1_Darhil_Danylo.DAL.DAO.DAOImp;
+using TPP_PZ1_Darhil_Danylo.DAL.DAO.Interfaces;
 using TPP_PZ1_Darhil_Danylo.DAL.Models;
 
 namespace TPP_PZ_Darhil_Danylo.Controllers
 {
     public class AddOrderAutoPartsController : Controller
     {
-        OrderDAO OrderDAO = new OrderDAO();
-        AutoPartDAO AutoPartDAO = new AutoPartDAO();
-        OrdersAutoPartsDAO OrdersAutoPartsDAO = new OrdersAutoPartsDAO();
+        DAOFactory DAOFactory = new DAOFactory();
+        private readonly IDAO<Order> OrderDAO;
+        private readonly IDAO<AutoPart> AutoPartDAO;
+        private readonly IDAO<OrdersAutoParts> OrdersAutoPartsDAO;
+        public AddOrderAutoPartsController()
+        {
+            OrderDAO = DAOFactory.Create<Order>();
+            AutoPartDAO = DAOFactory.Create<AutoPart>();
+            OrdersAutoPartsDAO = DAOFactory.Create<OrdersAutoParts>();
+        }
         public ActionResult AddOrderAutoParts()
         {
                 List<AutoPart> autoparts = AutoPartDAO.GetAll();
@@ -35,7 +44,7 @@ namespace TPP_PZ_Darhil_Danylo.Controllers
                     OrderDAO.Create(order);
                     order.Status.Id = -1;
                 }
-                OrdersAutoParts ordersAutoParts = new OrdersAutoParts.Builder().WithAutopart(id, quantity, price * quantity/100).WithOrder(OrderDAO.GetLastInsertedOrderId()).Build();
+                OrdersAutoParts ordersAutoParts = new OrdersAutoParts.Builder().WithAutopart(id, quantity, price * quantity/100).WithOrder(0).Build();
                 OrdersAutoPartsDAO.Create(ordersAutoParts);
                 serializedOrder = JsonConvert.SerializeObject(order);
                 TempData["SerializedOrder"] = serializedOrder;

@@ -19,11 +19,11 @@ namespace TPP_PZ1_Darhil_Danylo.DAL.DAO.DAOImp
         private const string _searchClientByCriteriaQuery = "select clientid,login,password,name," +
             "surname,patronymic,phone,email,adress from client where name like @searchcriteria" +
             " or login like @searchcriteria";
-        private const string _insertClientQuery = "INSERT INTO `coursework2023tkp`.`client` (`login`," +
+        private const string _insertClientQuery = "INSERT INTO `client` (`login`," +
             " `password`, `name`, `surname`, `patronymic`, `phone`, `email`, `adress`) VALUES " +
             "(@login, @password, @name,@surname, @patronymic,@phone, @email, @adress);";
         private const string _selectClientByIdQuery = "select * from client where clientid=@id;";
-        private const string _updateClientQuery = "UPDATE `coursework2023tkp`.`client` SET `login` " +
+        private const string _updateClientQuery = "UPDATE `client` SET `login` " +
             "= @login, `password` = @password, `name` = @name, `surname` = @surname, " +
             "`patronymic` = @patronymic, `phone` = @phone, `email` = @email, `adress` = @adress" +
             " WHERE (`clientid` = @id);";

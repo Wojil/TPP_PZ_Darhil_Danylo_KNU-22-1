@@ -6,12 +6,20 @@ using System.Diagnostics.Eventing.Reader;
 using System.Reflection.PortableExecutable;
 using TPP_PZ1_Darhil_Danylo.DAL.DAO.DAOImp;
 using TPP_PZ1_Darhil_Danylo.DAL.ViewModels;
+using TPP_PZ_Darhil_Danylo.DAL.DAO.FactoryMethod;
+using TPP_PZ1_Darhil_Danylo.DAL.DAO.Interfaces;
 
 namespace TPP_PZ1_Darhil_Danylo.Controllers
 {
     public class ManagerPartsController : Controller
     {
-        AutoPartDAO AutoPartDAO = new AutoPartDAO();
+        DAOFactory DAOFactory = new DAOFactory();
+        private readonly IDAO<AutoPart> AutoPartDAO;
+        public ManagerPartsController()
+        {
+            AutoPartDAO = DAOFactory.Create<AutoPart>();
+        }
+
         public ActionResult GetAutoParts()
         {
             List<AutoPart> autoparts = AutoPartDAO.GetAll();

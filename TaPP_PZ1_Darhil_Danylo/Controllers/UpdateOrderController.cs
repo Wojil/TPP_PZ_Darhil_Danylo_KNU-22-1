@@ -1,7 +1,9 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using TPP_PZ_Darhil_Danylo.DAL.DAO.FactoryMethod;
 using TPP_PZ_Darhil_Danylo.DAL.ViewModels;
 using TPP_PZ1_Darhil_Danylo.DAL.DAO.DAOImp;
+using TPP_PZ1_Darhil_Danylo.DAL.DAO.Interfaces;
 using TPP_PZ1_Darhil_Danylo.DAL.Models;
 using TPP_PZ1_Darhil_Danylo.DAL.ViewModels;
 
@@ -9,10 +11,20 @@ namespace TPP_PZ_Darhil_Danylo.Controllers
 {
     public class UpdateOrderController : Controller
     {
-        OrderDAO OrderDAO = new OrderDAO();
-        OrderStatusDAO OrderStatusDAO = new OrderStatusDAO();
-        ClientDAO ClientDAO = new ClientDAO();
-        ManagerDAO ManagerDAO = new ManagerDAO();
+        DAOFactory DAOFactory = new DAOFactory();
+        private readonly IDAO<Order> OrderDAO;
+        private readonly IDAO<OrderStatus> OrderStatusDAO;
+        private readonly IDAO<Client> ClientDAO;
+        private readonly IDAO<Manager> ManagerDAO;
+
+        public UpdateOrderController()
+        {
+            OrderDAO = DAOFactory.Create<Order>();
+            OrderStatusDAO = DAOFactory.Create<OrderStatus>();
+            ClientDAO = DAOFactory.Create<Client>();
+            ManagerDAO = DAOFactory.Create<Manager>();
+
+        }
         public ActionResult UpdateOrder(int id)
         {
             OrderPropertiesViewModel orderProperties = new OrderPropertiesViewModel();

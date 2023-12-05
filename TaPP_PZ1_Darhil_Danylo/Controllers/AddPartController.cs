@@ -4,17 +4,30 @@ using MySql.Data.MySqlClient;
 using TPP_PZ1_Darhil_Danylo.DAL.ViewModels;
 using TPP_PZ1_Darhil_Danylo.DAL.DAO.DAOImp;
 using TPP_PZ1_Darhil_Danylo.DAL.Models;
+using TPP_PZ_Darhil_Danylo.DAL.DAO.FactoryMethod;
+using TPP_PZ1_Darhil_Danylo.DAL.DAO.Interfaces;
 
 namespace CourseProject.Controllers
 {
     public class AddPartController : Controller
     {
-        PartTypeDAO PartTypeDAO = new PartTypeDAO();
-        PartCategoryDAO PartCategoryDAO = new PartCategoryDAO();
-        ManufacturerCountryDAO ManufacturerCountryDAO = new ManufacturerCountryDAO();
-        ManufacturerBrandDAO ManufacturerBrandDAO = new ManufacturerBrandDAO();
-        AutoModelDAO AutoModelDAO = new AutoModelDAO();
-        AutoPartDAO AutoPartDAO = new AutoPartDAO();
+        DAOFactory DAOFactory = new DAOFactory();
+        private readonly IDAO<PartType> PartTypeDAO;
+        private readonly IDAO<PartCategory> PartCategoryDAO;
+        private readonly IDAO<ManufacturerCountry> ManufacturerCountryDAO;
+        private readonly IDAO<ManufacturerBrand> ManufacturerBrandDAO;
+        private readonly IDAO<AutoModel> AutoModelDAO;
+        private readonly IDAO<AutoPart> AutoPartDAO;
+        public AddPartController()
+        {
+            PartTypeDAO = DAOFactory.Create<PartType>();
+            PartCategoryDAO = DAOFactory.Create<PartCategory>();
+            ManufacturerCountryDAO = DAOFactory.Create<ManufacturerCountry>();
+            ManufacturerBrandDAO = DAOFactory.Create<ManufacturerBrand>();
+            AutoModelDAO = DAOFactory.Create<AutoModel>();
+            AutoPartDAO = DAOFactory.Create<AutoPart>();
+        }
+
         public ActionResult AddPart()
         {
             PartPropertiesViewModel partProperties = new PartPropertiesViewModel();

@@ -35,8 +35,14 @@ namespace TPP_PZ1_Darhil_Danylo.DAL.DAO.DAOImp
             " concat(c.name,' ',c.surname,' ',c.patronymic) like @searchcriteria ;";
         private const string _deleteOrdersAutoPartsQuery = "delete from ordersautoparts where (orderid=@id);";
         private const string _insertOrdersAutoPartsQuery = "insert into ordersautoparts (autopartid,orderid,partcount,price) values(@autopartid,@orderid,@partcount,@price);";
+        private const string _getLastInsertedId = "SELECT LAST_INSERT_ID();";
+
         public void Create(OrdersAutoParts obj)
         {
+            if(obj.Order.Id==0)
+            {
+                obj.Order.Id = GetLastInsertedOrderId();
+            }
             var connection = _sqlContext.GetConnection();
             var command = new MySqlCommand(_insertOrdersAutoPartsQuery, connection);
             command.Parameters.AddWithValue("@autopartid", obj.AutoPart.Id);
@@ -46,6 +52,16 @@ namespace TPP_PZ1_Darhil_Danylo.DAL.DAO.DAOImp
             command.ExecuteNonQuery();
             _sqlContext.CloseConnection();
         }
+        public int GetLastInsertedOrderId()
+        {
+            var connection = _sqlContext.GetConnection();
+            var command = new MySqlCommand(_getLastInsertedId, connection);
+            int resultid = Convert.ToInt32(command.ExecuteScalar());
+            _sqlContext.CloseConnection();
+
+            return resultid;
+        }
+
         public OrdersAutoPartsDAO()
         {
             _sqlContext = SQLContext.getInstance();

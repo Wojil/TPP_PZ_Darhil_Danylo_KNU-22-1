@@ -3,12 +3,19 @@ using Microsoft.AspNetCore.Mvc;
 using TPP_PZ1_Darhil_Danylo.DAL.ViewModels;
 using TPP_PZ1_Darhil_Danylo.DAL.DAO.DAOImp;
 using TPP_PZ1_Darhil_Danylo.DAL.Models;
+using TPP_PZ_Darhil_Danylo.DAL.DAO.FactoryMethod;
+using TPP_PZ1_Darhil_Danylo.DAL.DAO.Interfaces;
 
 namespace TPP_PZ_Darhil_Danylo.Controllers
 {
     public class UpdateClientController : Controller
     {
-        ClientDAO ClientDAO = new ClientDAO();
+        DAOFactory DAOFactory = new DAOFactory();
+        private readonly IDAO<Client> ClientDAO;
+        public UpdateClientController()
+        {
+            ClientDAO = DAOFactory.Create<Client>();
+        }
         public ActionResult UpdateClient(int id)
         {
             Client client = ClientDAO.Get(id);
