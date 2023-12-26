@@ -1,17 +1,21 @@
 ﻿using MySql.Data.MySqlClient;
+using Org.BouncyCastle.Asn1.Tsp;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using TPP_PZ_Darhil_Danylo.DAL.ObserverPattern.Classes;
+using TPP_PZ_Darhil_Danylo.DAL.ObserverPattern.Interfaces;
 using TPP_PZ1_Darhil_Danylo.DAL.DAO.Interfaces;
 using TPP_PZ1_Darhil_Danylo.DAL.Models;
 using TPP_PZ1_Darhil_Danylo.DAL.SQLConnection;
 
 namespace TPP_PZ1_Darhil_Danylo.DAL.DAO.DAOImp
 {
-    public class ClientDAO : IDAO<Client>
+    public class ClientDAO : IDAO<Client>, IObservable
     {
+        public List<IObserver> observers;
         private SQLContext _sqlContext;
         private const string _selectAllClientsQuery = "select clientid,login,password,name,surname," +
             "patronymic,phone,email,adress from client";
@@ -30,6 +34,9 @@ namespace TPP_PZ1_Darhil_Danylo.DAL.DAO.DAOImp
         public ClientDAO()
         {
             _sqlContext = SQLContext.getInstance();
+            observers = new List<IObserver>();
+            new ConsoleWriterObserver(this);
+            new FileWriterObserver(this);
         }
         public void Create(Client obj)
         {
@@ -45,6 +52,7 @@ namespace TPP_PZ1_Darhil_Danylo.DAL.DAO.DAOImp
             command.Parameters.AddWithValue("@adress", obj.Adress);
             command.ExecuteNonQuery();
             _sqlContext.CloseConnection();
+            NotifyObservers(DateTime.Now.ToString() + " Було створено нового клієнта");
         }
 
         public void Delete(int id)
@@ -54,6 +62,7 @@ namespace TPP_PZ1_Darhil_Danylo.DAL.DAO.DAOImp
             command.Parameters.AddWithValue("@id", id);
             command.ExecuteNonQuery();
             _sqlContext.CloseConnection();
+            NotifyObservers(DateTime.Now.ToString() + " Було видалено клієнта з номером "+id);
         }
 
         public Client Get(int id)
@@ -144,6 +153,26 @@ namespace TPP_PZ1_Darhil_Danylo.DAL.DAO.DAOImp
             command.Parameters.AddWithValue("@adress", obj.Adress);
             command.ExecuteNonQuery();
             _sqlContext.CloseConnection();
+            NotifyObservers(DateTime.Now.ToString() + " Було змінено клієнта з номером " + obj.Id);
+
+        }
+
+        public void AddObserver(IObserver o)
+        {
+            observers.Add(o);
+        }
+
+        public void RemoveObserver(IObserver o)
+        {
+            observers.Remove(o);
+        }
+
+        public void NotifyObservers(string message)
+        {
+            foreach (IObserver o in observers)
+            {
+                o.Update(message);
+            }
         }
     }
 }

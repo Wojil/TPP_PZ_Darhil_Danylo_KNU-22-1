@@ -6,6 +6,8 @@ using System.Linq;
 using System.Reflection.PortableExecutable;
 using System.Text;
 using System.Threading.Tasks;
+using TPP_PZ_Darhil_Danylo.DAL.ObserverPattern.Interfaces;
+using TPP_PZ_Darhil_Danylo.DAL.ObserverPattern.Classes;
 using TPP_PZ1_Darhil_Danylo.DAL.DAO.Interfaces;
 using TPP_PZ1_Darhil_Danylo.DAL.Models;
 using TPP_PZ1_Darhil_Danylo.DAL.SQLConnection;
@@ -51,6 +53,8 @@ namespace TPP_PZ1_Darhil_Danylo.DAL.DAO.DAOImp
             command.Parameters.AddWithValue("@price", obj.AutoPart.Price);
             command.ExecuteNonQuery();
             _sqlContext.CloseConnection();
+            /*Console.WriteLine(DateTime.Now + " Було додано новий запис до таблиці OrdersAutoParts. Об'єкт який був доданий до БД:\n");
+            NotifyObservers(obj);*/
         }
         public int GetLastInsertedOrderId()
         {
@@ -65,6 +69,7 @@ namespace TPP_PZ1_Darhil_Danylo.DAL.DAO.DAOImp
         public OrdersAutoPartsDAO()
         {
             _sqlContext = SQLContext.getInstance();
+            //OnModelCreated += (x) => { Console.WriteLine(System.Text.Json.JsonSerializer.Serialize(x)); };
         }
         public void Delete(int id)
         {
@@ -74,6 +79,7 @@ namespace TPP_PZ1_Darhil_Danylo.DAL.DAO.DAOImp
             command.ExecuteNonQuery();
             _sqlContext.CloseConnection();
             OrderDAO.Delete(id);
+            Console.WriteLine(DateTime.Now + " Було видалено запис з таблиці OrdersAutoParts з id=" + id+"\n");
         }
 
         public OrdersAutoParts Get(int id)
@@ -122,6 +128,8 @@ namespace TPP_PZ1_Darhil_Danylo.DAL.DAO.DAOImp
             }
             reader.Close();
             _sqlContext.CloseConnection();
+           /* Console.WriteLine(DateTime.Now + " Було отримано список елементів з таблиці OrdersAutoParts. Перший елемент з переліку:\n");
+            NotifyObservers(OrdersAutoParts[0]);*/
             return OrdersAutoParts;
         }
 
@@ -167,6 +175,8 @@ namespace TPP_PZ1_Darhil_Danylo.DAL.DAO.DAOImp
             }
             reader.Close();
             _sqlContext.CloseConnection();
+          /*  Console.WriteLine(DateTime.Now+ " Було відібрано список елементів з таблиці OrdersAutoParts. Перший елемент з переліку:\n");
+            NotifyObservers(OrdersAutoParts[0]);*/
             return OrdersAutoParts;
         }
 

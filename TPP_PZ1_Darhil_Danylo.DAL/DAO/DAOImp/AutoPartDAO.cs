@@ -12,9 +12,10 @@ using System.Drawing.Drawing2D;
 using System.Reflection.PortableExecutable;
 
 namespace TPP_PZ1_Darhil_Danylo.DAL.DAO.DAOImp
-{
+{ 
     public class AutoPartDAO : IDAO<AutoPart>
     {
+        
         private SQLContext _sqlContext;
         private const string _selectAllAutoPartsQuery = "select a.autopartid,a.code, m.automodelid, m.automodelname,c.categoryid,c.categoryname,t.typeid,t.typename,b.brandid,b.brandname,mc.countryid,mc.countryname," +
                         "a.partname,a.price,a.partdescription,a.quantity " +

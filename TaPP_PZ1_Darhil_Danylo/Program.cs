@@ -1,3 +1,5 @@
+using System.Text;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
@@ -18,7 +20,7 @@ app.UseStaticFiles();
 
 app.UseRouting();
 
-
+Console.OutputEncoding = Encoding.UTF8;
 
 app.UseAuthorization();
 
