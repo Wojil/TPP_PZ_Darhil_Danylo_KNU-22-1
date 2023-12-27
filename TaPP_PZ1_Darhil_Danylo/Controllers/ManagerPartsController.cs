@@ -17,7 +17,8 @@ namespace TPP_PZ1_Darhil_Danylo.Controllers
         private readonly IDAO<AutoPart> AutoPartDAO;
         public ManagerPartsController()
         {
-            AutoPartDAO = DAOFactory.Create<AutoPart>();
+            string role = System.IO.File.ReadAllText("UserRole.txt");
+            AutoPartDAO = DAOFactory.Create<AutoPart>(role);
         }
 
         public ActionResult GetAutoParts()

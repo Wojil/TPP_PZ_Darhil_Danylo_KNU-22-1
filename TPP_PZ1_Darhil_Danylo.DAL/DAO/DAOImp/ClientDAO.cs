@@ -31,6 +31,7 @@ namespace TPP_PZ1_Darhil_Danylo.DAL.DAO.DAOImp
             "= @login, `password` = @password, `name` = @name, `surname` = @surname, " +
             "`patronymic` = @patronymic, `phone` = @phone, `email` = @email, `adress` = @adress" +
             " WHERE (`clientid` = @id);";
+        private const string _getClientByLoginAndPassword = "select role from client where login=@login and password=@password;";
         public ClientDAO()
         {
             _sqlContext = SQLContext.getInstance();
@@ -54,7 +55,23 @@ namespace TPP_PZ1_Darhil_Danylo.DAL.DAO.DAOImp
             _sqlContext.CloseConnection();
             NotifyObservers(DateTime.Now.ToString() + " Було створено нового клієнта");
         }
+        public string CheckClient(string login, string password)
+        {
+            string? role=null;
+            var connection = _sqlContext.GetConnection();
+            var command = new MySqlCommand(_getClientByLoginAndPassword, connection);
+            command.Parameters.AddWithValue("@login", login);
+            command.Parameters.AddWithValue("@password", password);
+            var reader = command.ExecuteReader();
+            while (reader.Read())
+            {
+                role = reader.GetString(0);
+            }
+            reader.Close();
+            _sqlContext.CloseConnection();
+            return role;
 
+        }
         public void Delete(int id)
         {
             var connection = _sqlContext.GetConnection();

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using TPP_PZ_Darhil_Danylo.DAL.ProxyPattern;
 using TPP_PZ1_Darhil_Danylo.DAL.DAO.DAOImp;
 using TPP_PZ1_Darhil_Danylo.DAL.DAO.Interfaces;
 using TPP_PZ1_Darhil_Danylo.DAL.Models;
@@ -32,5 +33,18 @@ namespace TPP_PZ_Darhil_Danylo.DAL.DAO.FactoryMethod
 
             return dao as IDAO<T>;
         }
+        public IDAO<T> Create<T>(string role) where T : class
+        {
+            UserRolesEnum enumrole= Enum.Parse<UserRolesEnum>(role);
+            object dao;
+            var type = typeof(T);
+            dao = type switch
+            {
+                _ when typeof(T) == typeof(AutoPart) => new ProxyAutoPartDAO(enumrole),
+            };
+
+            return dao as IDAO<T>;
+        }
+
     }
 }

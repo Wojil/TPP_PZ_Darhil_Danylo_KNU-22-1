@@ -30,7 +30,8 @@ namespace TPP_PZ1_Darhil_Danylo.Controllers
             ManufacturerCountryDAO = DAOFactory.Create<ManufacturerCountry>();
             ManufacturerBrandDAO = DAOFactory.Create<ManufacturerBrand>();
             AutoModelDAO = DAOFactory.Create<AutoModel>();
-            AutoPartDAO = DAOFactory.Create<AutoPart>();
+            string role = System.IO.File.ReadAllText("UserRole.txt");
+            AutoPartDAO = DAOFactory.Create<AutoPart>(role);
             AutopartCaretaker = new AutopartCaretaker();
             partProperties = new PartPropertiesViewModel();
         }

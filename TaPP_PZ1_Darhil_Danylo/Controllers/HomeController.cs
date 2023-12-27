@@ -12,7 +12,7 @@ namespace CourseProject.Controllers
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
-
+        private static int count=0;
         public HomeController(ILogger<HomeController> logger)
         {
             _logger = logger;
@@ -29,6 +29,11 @@ namespace CourseProject.Controllers
         }
         public IActionResult ManagerMenu()
         {
+            if (count == 0)
+            {
+                System.IO.File.WriteAllText("UserRole.txt", "user");
+                count = 1;
+            }
             return View();
         }
 
