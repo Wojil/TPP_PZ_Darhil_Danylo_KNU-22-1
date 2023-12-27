@@ -24,7 +24,6 @@
     #input-count {
         text-align: center;
     }
-
 </style>
 
 <div class="text-center">
@@ -39,11 +38,11 @@
     }
     else
     {
-        <form method="post" action="@Url.Action("Update","UpdatePart")">
-            <div class="card mb-3">
+        <div class="card mb-3">
+            <form method="post" action="@Url.Action("Update","UpdatePart")">
                 <div class="card-body">
                     <div class="form-group">
-                        <input type="hidden" id="id" name="id" value="@Model.AutoPart.Id" class="form-control"/>
+                        <input type="hidden" id="id" name="id" value="@Model.AutoPart.Id" class="form-control" />
                         <label for="name">Назва:</label>
                         <input type="text" id="nameid" name="name" class="form-control" value="@Model.AutoPart.Name" required />
                     </div>
@@ -118,8 +117,24 @@
                 <div class="form-group" style="text-align:center; display:flex; justify-content:center; margin-bottom: 10px;">
                     <button type="submit" class="btn btn-primary" style=" width:300px;">Відредагувати товар</button>
                 </div>
+            </form>
+
+            <div class="form-group" style="text-align:center; display:flex; justify-content:center; margin-bottom: 10px;">
+                @if (Model.StatesCount != 0)
+                {
+                    <form method="post" style="text-align:center; display:flex; justify-content:center; margin-bottom: 10px;" action="@Url.Action("Undo","UpdatePart")">
+                        <button type="submit" class="btn btn-primary" style="width: 300px;">Відмінити останні зміни</button>
+                    </form>
+                }
+                else
+                {
+                    <form method="post" style="text-align:center; display:flex; justify-content:center; margin-bottom: 10px;" action="@Url.Action("Undo","UpdatePart")">
+                        <button type="submit" class="btn btn-primary" style="width: 300px;" disabled>Відмінити останні зміни</button>
+                    </form>
+
+                }
             </div>
-        </form>
+        </div>
     }
 </div>
 

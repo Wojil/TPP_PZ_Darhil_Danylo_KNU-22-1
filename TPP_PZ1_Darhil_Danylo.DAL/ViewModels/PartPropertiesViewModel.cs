@@ -16,6 +16,8 @@ namespace TPP_PZ1_Darhil_Danylo.DAL.ViewModels
 
         public virtual AutoPart AutoPart { get; set; } = null!;
 
+        public int StatesCount;
+
         public PartPropertiesViewModel()
         {
             AutoModels = new List<AutoModel>();
@@ -24,6 +26,7 @@ namespace TPP_PZ1_Darhil_Danylo.DAL.ViewModels
             PartCategories = new List<PartCategory>();
             PartTypes = new List<PartType>();
             AutoPart = null;
+            StatesCount = 0;
         }
     }
 }

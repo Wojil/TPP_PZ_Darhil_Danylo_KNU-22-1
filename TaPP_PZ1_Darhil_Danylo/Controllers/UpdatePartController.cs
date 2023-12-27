@@ -6,6 +6,9 @@ using TPP_PZ1_Darhil_Danylo.DAL.DAO.DAOImp;
 using TPP_PZ1_Darhil_Danylo.DAL.Models;
 using TPP_PZ_Darhil_Danylo.DAL.DAO.FactoryMethod;
 using TPP_PZ1_Darhil_Danylo.DAL.DAO.Interfaces;
+using TPP_PZ_Darhil_Danylo.DAL.MementoPattern;
+using Microsoft.SqlServer.Management.Smo;
+using Newtonsoft.Json;
 
 namespace TPP_PZ1_Darhil_Danylo.Controllers
 {
@@ -18,6 +21,8 @@ namespace TPP_PZ1_Darhil_Danylo.Controllers
         private readonly IDAO<ManufacturerBrand> ManufacturerBrandDAO;
         private readonly IDAO<AutoModel> AutoModelDAO;
         private readonly IDAO<AutoPart> AutoPartDAO;
+        AutopartCaretaker AutopartCaretaker;
+        PartPropertiesViewModel partProperties;
         public UpdatePartController()
         {
             PartTypeDAO = DAOFactory.Create<PartType>();
@@ -26,26 +31,65 @@ namespace TPP_PZ1_Darhil_Danylo.Controllers
             ManufacturerBrandDAO = DAOFactory.Create<ManufacturerBrand>();
             AutoModelDAO = DAOFactory.Create<AutoModel>();
             AutoPartDAO = DAOFactory.Create<AutoPart>();
+            AutopartCaretaker = new AutopartCaretaker();
+            partProperties = new PartPropertiesViewModel();
         }
         public ActionResult UpdatePart(int id)
         {
-            PartPropertiesViewModel partProperties = new PartPropertiesViewModel();
-            partProperties.ManufacturerBrands = ManufacturerBrandDAO.GetAll();
-            partProperties.ManufacturerCountries = ManufacturerCountryDAO.GetAll();
-            partProperties.AutoModels = AutoModelDAO.GetAll();
-            partProperties.PartCategories = PartCategoryDAO.GetAll();
-            partProperties.PartTypes = PartTypeDAO.GetAll();
+            partProperties = GetPartProperties();
             partProperties.AutoPart = AutoPartDAO.Get(id);
-            return View(partProperties);
+            partProperties.StatesCount = AutopartCaretaker.History.Count();
+            return View("UpdatePart", partProperties);
         }
-        public ActionResult Update(int id, string name, string code, string automodel, string parttype,string partcategory,string brand, string country, string description,decimal price,int quantity)
+        public ActionResult Update(int id, string name, string code, string automodel, string parttype, string partcategory, string brand, string country, string description, decimal price, int quantity)
         {
+            string? caretakerHistoryJson = TempData["AutopartCaretaker_History"] as string;
+
+            AutopartCaretaker.History.Push(AutoPartDAO.Get(id).SaveState());
+            if (!string.IsNullOrEmpty(caretakerHistoryJson))
+            {
+                var history = JsonConvert.DeserializeObject<Stack<AutopartMemento>>(caretakerHistoryJson);
+                var list = history.AsEnumerable().Reverse().ToList();
+                list.ForEach(s => AutopartCaretaker.History.Push(s));
+            }
+            caretakerHistoryJson = JsonConvert.SerializeObject(AutopartCaretaker.History);
+            TempData["AutopartCaretaker_History"] = caretakerHistoryJson;
             if (description == null)
                 description = " ";
             AutoPart autopart = new AutoPart.Builder().WithId(id).WithName(name).WithCode(code).WithAutomodel(automodel).WithPartType(parttype).WithPartCategory(partcategory).WithManufacturerBrand(brand).WithManufacturerCountry(country).WithDescription(description).WithPrice(price).WithQuantity(quantity).Build();
             AutoPartDAO.Update(autopart);
-            PartPropertiesViewModel configpropertie = null;
-            return View("UpdatePart", configpropertie);
+            return UpdatePart(id);
+        }
+
+        public ActionResult Undo()
+        {
+            string? caretakerHistoryJson = TempData["AutopartCaretaker_History"] as string;
+
+            if (!string.IsNullOrEmpty(caretakerHistoryJson))
+            {
+                var history = JsonConvert.DeserializeObject<Stack<AutopartMemento>>(caretakerHistoryJson);
+                AutopartCaretaker = new AutopartCaretaker(history);
+                AutoPart part = new AutoPart.Builder().WithId(0).Build();
+                part.RestoreState(AutopartCaretaker.History.Pop());
+                partProperties = GetPartProperties();
+                partProperties.AutoPart = part;
+                partProperties.StatesCount = AutopartCaretaker.History.Count();
+                AutoPartDAO.Update(part);
+                caretakerHistoryJson = JsonConvert.SerializeObject(AutopartCaretaker.History);
+                TempData["AutopartCaretaker_History"] = caretakerHistoryJson;
+            }
+            return View("UpdatePart", partProperties);
+        }
+
+        public PartPropertiesViewModel GetPartProperties()
+        {
+            PartPropertiesViewModel partproperties = new PartPropertiesViewModel();
+            partproperties.ManufacturerBrands = ManufacturerBrandDAO.GetAll();
+            partproperties.ManufacturerCountries = ManufacturerCountryDAO.GetAll();
+            partproperties.AutoModels = AutoModelDAO.GetAll();
+            partproperties.PartCategories = PartCategoryDAO.GetAll();
+            partproperties.PartTypes = PartTypeDAO.GetAll();
+            return partproperties;
         }
     }
 }

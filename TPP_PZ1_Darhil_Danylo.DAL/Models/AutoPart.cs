@@ -1,4 +1,6 @@
-﻿namespace TPP_PZ1_Darhil_Danylo.DAL.Models
+﻿using TPP_PZ_Darhil_Danylo.DAL.MementoPattern;
+
+namespace TPP_PZ1_Darhil_Danylo.DAL.Models
 {
     public partial class AutoPart
     {
@@ -116,12 +118,31 @@
             }
             public AutoPart Build()
             {
-                if (string.IsNullOrEmpty(_autopart.Name) || string.IsNullOrEmpty(_autopart.Code))
+                if ((string.IsNullOrEmpty(_autopart.Name) || string.IsNullOrEmpty(_autopart.Code)) && _autopart.Id!=0)
                 {
                     throw new InvalidOperationException("Назва або код автозапчастини є null або порожнім");
                 }
                 else return _autopart;
             }
+        }
+        public AutopartMemento SaveState()
+        {
+            return new AutopartMemento(Id, Code,Name,Price,Description,Quantity,AutoModel,ManufacturerBrand,ManufacturerCountry,PartCategory,PartType);
+        }
+        public void RestoreState(AutopartMemento memento)
+        {
+            this.Id = memento.Id;
+            this.Code = memento.Code;
+            this.Name = memento.Name;
+            this.Price = memento.Price;
+            this.Description = memento.Description;
+            this.Quantity = memento.Quantity;
+            this.AutoModel = memento.AutoModel;
+            this.ManufacturerBrand = memento.ManufacturerBrand;
+            this.ManufacturerCountry = memento.ManufacturerCountry;
+            this.PartCategory = memento.PartCategory;
+            this.PartType = memento.PartType;
+            this.SelectedPartCount = memento.SelectedPartCount;
         }
 
     }
